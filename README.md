@@ -64,18 +64,28 @@ Sistem mengukur performa model dengan persentase kemiripan terhadap kondisi nyat
 ### 1. Dependensi
 Pastikan Python 3.9+ telah terpasang. Instalasi pustaka pendukung dapat dilakukan cepat menggunakan:
 ```bash
-pip install pandas numpy streamlit plotly scikit-learn requests
+pip install pandas numpy streamlit plotly scikit-learn requests beautifulsoup4
 ```
 
-### 2. Menjalankan Dashboard
-Jalankan perintah berikut pada direktori proyek Anda:
+### 2. Langkah Pertama (Inisialisasi Data & Training)
+Sebelum menjalankan dashboard untuk pertama kali, Anda **harus** menjalankan skrip ETL harian untuk membersihkan data mentah asli (`master_historis_pangan_cirebon.csv`) dan melatih model peramalan *Direct Forecasting* secara lokal:
+```bash
+python update_harian.py
+```
+Proses ini akan menghasilkan berkas data bersih (`master_historis_pangan_cirebon_clean.csv`) beserta detail metrik model (`validation_detail.csv`, `validation_metrics.csv`, dan `forecast_14_hari.csv`).
+
+### 3. Menjalankan Dashboard
+Setelah proses inisialisasi data selesai, jalankan perintah berikut pada direktori proyek Anda:
 ```bash
 streamlit run app.py
 ```
 Aplikasi dapat dibuka melalui peramban web pada alamat default: `http://localhost:8501`.
 
-### 3. Struktur File
+### 4. Struktur File Repositori
 * `app.py`: Antarmuka visual Streamlit dan chatbot tanya jawab AI.
-* `update_harian.py`: Skrip penarik data (ETL), pembersih anomali, dan retraining model.
-* `master_historis_pangan_cirebon.csv`: Database master harga pangan historis mentah.
-* `master_historis_pangan_cirebon_clean.csv`: Database bersih hasil pembersihan data dan penggabungan faktor eksternal.
+* `update_harian.py`: Skrip penarik data (ETL), pembersih anomali, dan pelatihan model terpisah (Direct Forecasting).
+* `master_historis_pangan_cirebon.csv`: Database master harga pangan historis mentah (24 MB).
+* `README.md`: Dokumentasi petunjuk penggunaan.
+* `master_historis_pangan_cirebon_clean.csv` *(Generated setelah run)*: Database bersih hasil pembersihan data dan penggabungan faktor eksternal.
+* `forecast_14_hari.csv` *(Generated setelah run)*: Hasil peramalan 14 hari ke depan untuk semua pasar-komoditas.
+* `validation_metrics.csv` & `validation_detail.csv` *(Generated setelah run)*: Hasil kalkulasi metrik evaluasi model.
