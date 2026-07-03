@@ -1,0 +1,81 @@
+# Pemantauan & Peramalan Harga Pangan Kabupaten Cirebon
+
+Proyek ini menyajikan sistem pemantauan, audit kualitas, dan peramalan harga bahan pangan pokok di Kabupaten Cirebon berbasis Data Science. Dirancang sebagai dashboard siap saji untuk membantu masyarakat umum memahami dinamika harga pasar dan membantu dinas terkait dalam mendeteksi anomali pelaporan harga lapangan.
+
+---
+
+## Teknologi & Pustaka (Tech Stack)
+
+Sistem dibangun menggunakan ekosistem Python modern dengan pustaka-pustaka standar industri berikut:
+* **Analisis & Manipulasi Data**: `pandas` (ETL, pivoting, data wrangling) dan `numpy` (operasi numerik & kalkulasi vektor).
+* **Pemodelan Machine Learning**: `scikit-learn` (Random Forest Regressor untuk regresi multivariat & Linear Regression untuk trend detrending).
+* **Visualisasi & Dashboard**: `streamlit` (kerangka antarmuka aplikasi web) dan `plotly` (grafik interaktif runtun waktu & audit trail).
+* **Scraping & Request API**: `requests` (penarik data cuaca Open-Meteo & API berita) dan `importlib` (manajemen reloading modul harian).
+
+---
+
+## Komponen & Arsitektur Sistem
+
+Sistem ini memisahkan proses pengolahan data (ETL/Modeling) dengan antarmuka pengguna untuk menjaga efisiensi dan stabilitas:
+
+1. **Pipeline ETL & Automated Scraping (`update_harian.py`)**
+   * Berjalan secara terjadwal otomatis (Cron Job / Windows Task Scheduler) setiap hari pada pukul **13:00 WIB** (sesuai waktu pembaruan portal dinas).
+   * Mengunduh data harian dari portal resmi Kemendag Kepokmas Kabupaten Cirebon secara terprogram.
+   * Melakukan pembersihan data otomatis, scraping berita & cuaca terbaru, retraining model, dan memperbarui database.
+
+2. **Dashboard Interaktif (`app.py`)**
+   * Aplikasi visual berbasis Streamlit untuk menyajikan data secara instan tanpa membebani performa browser dengan training ulang model di sisi pengguna.
+   * Modul visual: Tren Harga Aktual, Deteksi Anomali (Audit Trail), Disparitas Pasar, Kualitas Data, dan Tanya Jawab AI (Chatbot RAG).
+
+---
+
+## Metodologi Pembersihan Data & Deteksi Anomali
+
+Data mentah laporan petugas pasar sering kali memiliki anomali akibat kesalahan input (typo penulisan nominal). Pipa data otomatis menyaring anomali tersebut melalui:
+* **Skala Koreksi Otomatis**: Memperbaiki harga typo yang kekurangan angka nol secara otomatis (misal: Rp 3.500 diinput Rp 350 akan dikoreksi ke batas wajar).
+* **Deteksi Outlier Runtun Waktu**: Menggunakan metode statistik **Interquartile Range (IQR)** pada selisih perubahan harga harian untuk mendeteksi lonjakan tidak realistis yang disebabkan oleh kesalahan input.
+* **Imputasi Gaps**: Nilai anomali dihapus dan diganti menggunakan interpolasi linier, sedangkan tanggal kosong diisi secara Forward Fill (`ffill`) untuk menjaga kontinuitas visualisasi runtun waktu.
+
+---
+
+## Model Peramalan: Random Forest 14 Hari (Multi-Faktor)
+
+Harga pangan harian pasar tradisional sangat fluktuatif dalam jangka pendek. Sistem membatasi horizon peramalan secara realistis hingga **14 hari ke depan** menggunakan model **Random Forest Regressor** dengan mengintegrasikan faktor penentu harga:
+
+* **Siklus Cuaca & Hama (Open-Meteo API)**: Parameter `Curah_Hujan` dan `Suhu_Rata` harian untuk mengukur risiko gagal panen.
+* **Sentimen Publik (Google News RSS)**: Pengukur sentimen berita pangan lokal (isu kelangkaan pasokan atau ketersediaan stok).
+* **Kebijakan & Demand (Makan Bergizi Gratis)**: Status aktif/libur sekolah di Kabupaten Cirebon yang memengaruhi permintaan bahan pangan.
+* **Siklus Musiman Tahunan**: Variabel `Hari_Dalam_Tahun` untuk mengenali musim panen raya atau paceklik berulang.
+* **Hari Raya Keagamaan (HBKN)**: Variabel `Jarak_Ke_Hari_Raya` (Idulfitri, Natal, Tahun Baru) untuk mengantisipasi lonjakan permintaan ekstrem musiman.
+* **Struktur Harga**: Lag historis (`Lag_1`, `Lag_2`, `Lag_7`) untuk menjaga stabilitas inersia harga pasar.
+
+---
+
+## Metrik Akurasi & Validasi
+
+Sistem mengukur performa model dengan persentase kemiripan terhadap kondisi nyata:
+* **Skor Akurasi Prediksi**: Dihitung dari 100% dikurangi persentase kesalahan (MAPE). Semakin mendekati 100%, prediksi model semakin akurat.
+* **Rata-rata Selisih Harga (MAE)**: Selisih kesalahan tebakan model dalam satuan Rupiah dari harga lapangan asli.
+
+---
+
+## Panduan Instalasi & Eksekusi Lokal
+
+### 1. Dependensi
+Pastikan Python 3.9+ telah terpasang. Instalasi pustaka pendukung dapat dilakukan cepat menggunakan:
+```bash
+pip install pandas numpy streamlit plotly scikit-learn requests
+```
+
+### 2. Menjalankan Dashboard
+Jalankan perintah berikut pada direktori proyek Anda:
+```bash
+streamlit run app.py
+```
+Aplikasi dapat dibuka melalui peramban web pada alamat default: `http://localhost:8501`.
+
+### 3. Struktur File
+* `app.py`: Antarmuka visual Streamlit dan chatbot tanya jawab AI.
+* `update_harian.py`: Skrip penarik data (ETL), pembersih anomali, dan retraining model.
+* `master_historis_pangan_cirebon.csv`: Database master harga pangan historis mentah.
+* `master_historis_pangan_cirebon_clean.csv`: Database bersih hasil pembersihan data dan penggabungan faktor eksternal.
