@@ -78,15 +78,6 @@ HOLIDAYS = sorted(pd.to_datetime([
     "2027-01-01", "2027-03-09", "2027-05-16", "2027-12-25"
 ]))
 
-class SimpleLSTM(nn.Module):
-    def __init__(self):
-        super().__init__()
-        self.lstm = nn.LSTM(1, 16, batch_first=True)
-        self.fc = nn.Linear(16, 14)
-    def forward(self, x):
-        out, _ = self.lstm(x)
-        return self.fc(out[:, -1, :])
-
 @st.cache_data
 def get_forecast(selected_commodity, selected_market, _df_full, days_to_predict=14):
     # Filter data spesifik komoditas dan pasar
@@ -118,16 +109,9 @@ def get_forecast(selected_commodity, selected_market, _df_full, days_to_predict=
     
     if len(sub_df) <= 100:
         last_val = sub_df["Harga_Bersih"].iloc[-1] if not sub_df.empty else 0.0
-        f_pred_rf = pd.DataFrame({"Tanggal": future_dates, "Harga_Prediksi": [last_val] * days_to_predict})
-        f_pred_rf["Harga_Prediksi"] = np.round(f_pred_rf["Harga_Prediksi"] / 500.0) * 500.0
-        
-        future_preds = {"Random Forest": f_pred_rf, "XGBoost": f_pred_rf.copy(), "LSTM": f_pred_rf.copy()}
-        metrics = {
-            "Random Forest": (0.0, 0.0),
-            "XGBoost": (0.0, 0.0),
-            "LSTM": (0.0, 0.0)
-        }
-        return future_preds, metrics, pd.DataFrame(), {}
+        future_pred = pd.DataFrame({"Tanggal": future_dates, "Harga_Prediksi": [last_val] * days_to_predict})
+        future_pred["Harga_Prediksi"] = np.round(future_pred["Harga_Prediksi"] / 500.0) * 500.0
+        return future_pred, 0.0, 0.0, pd.DataFrame(), pd.DataFrame()
 
     eval_df = sub_df.copy()
     
@@ -145,36 +129,25 @@ def get_forecast(selected_commodity, selected_market, _df_full, days_to_predict=
     
     if len(train_df_clean) <= 60 or len(test_df) == 0:
         last_val = eval_df["Harga_Bersih"].iloc[-1]
-        f_pred_rf = pd.DataFrame({"Tanggal": future_dates, "Harga_Prediksi": [last_val] * days_to_predict})
-        f_pred_rf["Harga_Prediksi"] = np.round(f_pred_rf["Harga_Prediksi"] / 500.0) * 500.0
-        
-        future_preds = {"Random Forest": f_pred_rf, "XGBoost": f_pred_rf.copy(), "LSTM": f_pred_rf.copy()}
-        metrics = {
-            "Random Forest": (0.0, 0.0),
-            "XGBoost": (0.0, 0.0),
-            "LSTM": (0.0, 0.0)
-        }
-        return future_preds, metrics, pd.DataFrame(), {}
+        future_pred = pd.DataFrame({"Tanggal": future_dates, "Harga_Prediksi": [last_val] * days_to_predict})
+        future_pred["Harga_Prediksi"] = np.round(future_pred["Harga_Prediksi"] / 500.0) * 500.0
+        return future_pred, 0.0, 0.0, pd.DataFrame(), pd.DataFrame()
         
     # --- TRAINING MODEL VALIDASI (14 HARI TERAKHIR) ---
-    preds_rf_val = [0.0] * days_to_predict
     preds_xgb_val = [0.0] * days_to_predict
     
     lag1_val = train_df["Harga_Bersih"].iloc[-1]
     lag2_val = train_df["Harga_Bersih"].iloc[-2] if len(train_df) > 1 else lag1_val
     lag7_val = train_df["Harga_Bersih"].iloc[-7] if len(train_df) > 6 else lag1_val
     
-    # 1. RF & XGBoost (Direct Validation)
+    # XGBoost Direct Validation
     for k in range(days_to_predict):
         train_df_clean[f"Target_H_{k+1}"] = train_df_clean["Harga_Bersih"].shift(-(k+1))
         train_df_h = train_df_clean.dropna(subset=[f"Target_H_{k+1}"])
         
         if len(train_df_h) > 30:
-            rf_h = RandomForestRegressor(n_estimators=20, max_depth=5, random_state=42, n_jobs=-1)
-            rf_h.fit(train_h := train_df_h[features].fillna(0), train_df_h[f"Target_H_{k+1}"])
-            
-            xgb_h = xgb.XGBRegressor(n_estimators=20, max_depth=4, learning_rate=0.1, random_state=42, n_jobs=-1)
-            xgb_h.fit(train_h, train_df_h[f"Target_H_{k+1}"])
+            xgb_h = xgb.XGBRegressor(n_estimators=30, max_depth=5, learning_rate=0.1, random_state=42, n_jobs=-1)
+            xgb_h.fit(train_df_h[features].fillna(0), train_df_h[f"Target_H_{k+1}"])
             
             row_test = test_df.iloc[k]
             row_feat = pd.DataFrame([{
@@ -188,61 +161,14 @@ def get_forecast(selected_commodity, selected_market, _df_full, days_to_predict=
                 "Hari_Dalam_Tahun": row_test["Hari_Dalam_Tahun"],
                 "Jarak_Ke_Hari_Raya": row_test["Jarak_Ke_Hari_Raya"]
             }])
-            preds_rf_val[k] = rf_h.predict(row_feat)[0]
             preds_xgb_val[k] = xgb_h.predict(row_feat)[0]
         else:
-            preds_rf_val[k] = lag1_val
             preds_xgb_val[k] = lag1_val
             
-    pred_rf_val_df = test_df.copy()
-    pred_rf_val_df["yhat"] = np.round(np.array(preds_rf_val) / 500.0) * 500.0
-    mape_rf = np.mean(np.abs((pred_rf_val_df["Harga_Bersih"] - pred_rf_val_df["yhat"]) / pred_rf_val_df["Harga_Bersih"])) * 100
-    mae_rf = np.mean(np.abs(pred_rf_val_df["Harga_Bersih"] - pred_rf_val_df["yhat"]))
-
     pred_xgb_val_df = test_df.copy()
     pred_xgb_val_df["yhat"] = np.round(np.array(preds_xgb_val) / 500.0) * 500.0
     mape_xgb = np.mean(np.abs((pred_xgb_val_df["Harga_Bersih"] - pred_xgb_val_df["yhat"]) / pred_xgb_val_df["Harga_Bersih"])) * 100
     mae_xgb = np.mean(np.abs(pred_xgb_val_df["Harga_Bersih"] - pred_xgb_val_df["yhat"]))
-
-    # 2. LSTM (Validation)
-    prices_train = train_df["Harga_Bersih"].values
-    p_min_val, p_max_val = prices_train.min(), prices_train.max()
-    scaled_train = (prices_train - p_min_val) / (p_max_val - p_min_val) if p_max_val > p_min_val else prices_train * 0.0
-    
-    window_size = 30
-    X_lstm, y_lstm = [], []
-    for i in range(len(scaled_train) - window_size - days_to_predict + 1):
-        X_lstm.append(scaled_train[i : i + window_size])
-        y_lstm.append(scaled_train[i + window_size : i + window_size + days_to_predict])
-        
-    if len(X_lstm) > 10:
-        X_lstm_t = torch.FloatTensor(np.array(X_lstm)[:, :, np.newaxis])
-        y_lstm_t = torch.FloatTensor(np.array(y_lstm))
-        
-        lstm_val = SimpleLSTM()
-        criterion = nn.MSELoss()
-        optimizer = optim.Adam(lstm_val.parameters(), lr=0.01)
-        
-        lstm_val.train()
-        for epoch in range(60):
-            optimizer.zero_grad()
-            loss = criterion(lstm_val(X_lstm_t), y_lstm_t)
-            loss.backward()
-            optimizer.step()
-            
-        lstm_val.eval()
-        with torch.no_grad():
-            last_w = scaled_train[-window_size:]
-            input_t = torch.FloatTensor(last_w).view(1, window_size, 1)
-            pred_s = lstm_val(input_t).numpy()[0]
-            preds_lstm_val = pred_s * (p_max_val - p_min_val) + p_min_val
-    else:
-        preds_lstm_val = [lag1_val] * days_to_predict
-
-    pred_lstm_val_df = test_df.copy()
-    pred_lstm_val_df["yhat"] = np.round(np.array(preds_lstm_val) / 500.0) * 500.0
-    mape_lstm = np.mean(np.abs((pred_lstm_val_df["Harga_Bersih"] - pred_lstm_val_df["yhat"]) / pred_lstm_val_df["Harga_Bersih"])) * 100
-    mae_lstm = np.mean(np.abs(pred_lstm_val_df["Harga_Bersih"] - pred_lstm_val_df["yhat"]))
 
     # --- TRAINING MODEL FINAL (PROYEKSI MASA DEPAN) ---
     eval_df["Lag_1"] = eval_df["Harga_Bersih"].shift(1)
@@ -269,7 +195,6 @@ def get_forecast(selected_commodity, selected_market, _df_full, days_to_predict=
     next_holidays_fut = pd.to_datetime([HOLIDAYS[i] for i in idx_fut])
     future_features["Jarak_Ke_Hari_Raya"] = (next_holidays_fut - future_features["Tanggal"]).dt.days
     
-    preds_rf_future = [0.0] * days_to_predict
     preds_xgb_future = [0.0] * days_to_predict
     
     for k in range(days_to_predict):
@@ -277,11 +202,8 @@ def get_forecast(selected_commodity, selected_market, _df_full, days_to_predict=
         eval_df_h = eval_df_clean.dropna(subset=[f"Target_H_{k+1}"])
         
         if len(eval_df_h) > 30:
-            rf_f = RandomForestRegressor(n_estimators=20, max_depth=5, random_state=42, n_jobs=-1)
-            rf_f.fit(eval_h := eval_df_h[features].fillna(0), eval_df_h[f"Target_H_{k+1}"])
-            
-            xgb_f = xgb.XGBRegressor(n_estimators=20, max_depth=4, learning_rate=0.1, random_state=42, n_jobs=-1)
-            xgb_f.fit(eval_h, eval_df_h[f"Target_H_{k+1}"])
+            xgb_f = xgb.XGBRegressor(n_estimators=30, max_depth=5, learning_rate=0.1, random_state=42, n_jobs=-1)
+            xgb_f.fit(eval_df_h[features].fillna(0), eval_df_h[f"Target_H_{k+1}"])
             
             row_feat = pd.DataFrame([{
                 "Curah_Hujan": future_features["Curah_Hujan"].iloc[k],
@@ -294,65 +216,16 @@ def get_forecast(selected_commodity, selected_market, _df_full, days_to_predict=
                 "Hari_Dalam_Tahun": future_features["Hari_Dalam_Tahun"].iloc[k],
                 "Jarak_Ke_Hari_Raya": future_features["Jarak_Ke_Hari_Raya"].iloc[k]
             }])
-            preds_rf_future[k] = rf_f.predict(row_feat)[0]
             preds_xgb_future[k] = xgb_f.predict(row_feat)[0]
         else:
-            preds_rf_future[k] = lag1_final
             preds_xgb_future[k] = lag1_final
             
-    # Final LSTM Model
-    prices_eval = eval_df["Harga_Bersih"].values
-    p_min_eval, p_max_eval = prices_eval.min(), prices_eval.max()
-    scaled_eval = (prices_eval - p_min_eval) / (p_max_eval - p_min_eval) if p_max_eval > p_min_eval else prices_eval * 0.0
+    future_pred = pd.DataFrame({
+        "Tanggal": future_dates,
+        "Harga_Prediksi": np.round(np.array(preds_xgb_future) / 500.0) * 500.0
+    })
     
-    X_lstm_f, y_lstm_f = [], []
-    for i in range(len(scaled_eval) - window_size - days_to_predict + 1):
-        X_lstm_f.append(scaled_eval[i : i + window_size])
-        y_lstm_f.append(scaled_eval[i + window_size : i + window_size + days_to_predict])
-        
-    if len(X_lstm_f) > 10:
-        X_lstm_f_t = torch.FloatTensor(np.array(X_lstm_f)[:, :, np.newaxis])
-        y_lstm_f_t = torch.FloatTensor(np.array(y_lstm_f))
-        
-        lstm_f = SimpleLSTM()
-        optimizer_f = optim.Adam(lstm_f.parameters(), lr=0.01)
-        
-        lstm_f.train()
-        for epoch in range(60):
-            optimizer_f.zero_grad()
-            loss = criterion(lstm_f(X_lstm_f_t), y_lstm_f_t)
-            loss.backward()
-            optimizer_f.step()
-            
-        lstm_f.eval()
-        with torch.no_grad():
-            last_w_f = scaled_eval[-window_size:]
-            input_f_t = torch.FloatTensor(last_w_f).view(1, window_size, 1)
-            pred_s_f = lstm_f(input_f_t).numpy()[0]
-            preds_lstm_future = pred_s_f * (p_max_eval - p_min_eval) + p_min_eval
-    else:
-        preds_lstm_future = [lag1_final] * days_to_predict
-        
-    # Compile Dataframes
-    future_preds = {
-        "Random Forest": pd.DataFrame({"Tanggal": future_dates, "Harga_Prediksi": np.round(np.array(preds_rf_future) / 500.0) * 500.0}),
-        "XGBoost": pd.DataFrame({"Tanggal": future_dates, "Harga_Prediksi": np.round(np.array(preds_xgb_future) / 500.0) * 500.0}),
-        "LSTM": pd.DataFrame({"Tanggal": future_dates, "Harga_Prediksi": np.round(np.array(preds_lstm_future) / 500.0) * 500.0})
-    }
-    
-    metrics = {
-        "Random Forest": (mape_rf, mae_rf),
-        "XGBoost": (mape_xgb, mae_xgb),
-        "LSTM": (mape_lstm, mae_lstm)
-    }
-    
-    pred_vals = {
-        "Random Forest": pred_rf_val_df,
-        "XGBoost": pred_xgb_val_df,
-        "LSTM": pred_lstm_val_df
-    }
-    
-    return future_preds, metrics, test_df, pred_vals
+    return future_pred, mape_xgb, mae_xgb, test_df, pred_xgb_val_df
 
 def get_forecast_precalculated(commodity, market, _df):
     forecast_path = BASE_DIR / "forecast_14_hari.csv"
@@ -674,9 +547,9 @@ elif page == "Deteksi Anomali Harga":
 # HALAMAN 3: PERAMALAN HARGA (FORECASTING)
 # ==========================================
 elif page == "Peramalan Harga (Forecasting)":
-    st.title("Peramalan Harga Pangan Cirebon (Random Forest 14 Hari)")
+    st.title("Peramalan Harga Pangan Cirebon (XGBoost 14 Hari)")
     st.info(status_data_text)
-    st.write("Prediksi pergerakan harga pangan 14 hari ke depan menggunakan model multivariat Random Forest berbasis pengaruh eksternal (cuaca, sentimen, kebijakan, dan hari raya).")
+    st.write("Prediksi pergerakan harga pangan 14 hari ke depan menggunakan model multivariat XGBoost Regressor berbasis pengaruh eksternal (cuaca, sentimen, kebijakan, dan hari raya).")
 
     col1, col2 = st.columns(2)
     with col1:
@@ -703,15 +576,15 @@ elif page == "Peramalan Harga (Forecasting)":
     sub_df = sub_df.sort_values("Tanggal").drop_duplicates(subset=["Tanggal"]).reset_index(drop=True)
 
     if len(sub_df) > 100:
-        # Latih model secara dinamis untuk perbandingan 3 model sekaligus
-        with st.spinner("Melatih model Random Forest, XGBoost, dan LSTM secara bersamaan..."):
+        # Latih model secara dinamis
+        with st.spinner("Melatih model XGBoost Regressor..."):
             try:
-                future_preds, metrics, test_df, pred_vals = get_forecast(selected_commodity, selected_market, df, days_to_predict=14)
+                future_pred, best_mape, best_mae, test_df, pred_val = get_forecast(selected_commodity, selected_market, df, days_to_predict=14)
             except Exception as e:
                 st.error(f"Gagal melatih model: {e}")
                 st.stop()
 
-        # Plot Grafik Prediksi Utama (Perbandingan 3 Model untuk Masa Depan)
+        # Plot Grafik Prediksi Utama
         fig = go.Figure()
         
         # Historis 6 bulan terakhir
@@ -724,23 +597,17 @@ elif page == "Peramalan Harga (Forecasting)":
             line=dict(color='#00BFFF', width=2)
         ))
 
-        # Prediksi masa depan untuk ketiga model
-        colors_fut = {
-            "Random Forest": "red",
-            "XGBoost": "green",
-            "LSTM": "orange"
-        }
-        for model_name, fut_df in future_preds.items():
-            fig.add_trace(go.Scatter(
-                x=fut_df["Tanggal"],
-                y=fut_df["Harga_Prediksi"],
-                mode='lines+markers',
-                name=f'Prediksi {model_name} (14 Hari)',
-                line=dict(color=colors_fut[model_name], dash='dash')
-            ))
+        # Prediksi masa depan
+        fig.add_trace(go.Scatter(
+            x=future_pred["Tanggal"],
+            y=future_pred["Harga_Prediksi"],
+            mode='lines+markers',
+            name='Prediksi Masa Depan (14 Hari)',
+            line=dict(color='green', dash='dash')
+        ))
 
         fig.update_layout(
-            title=f"Peramalan Harga {selected_commodity} di {selected_market} (Horizon: 14 Hari) - Perbandingan 3 Model",
+            title=f"Peramalan Harga {selected_commodity} di {selected_market} (Horizon: 14 Hari) - XGBoost Regressor",
             xaxis_title="Tanggal",
             yaxis_title="Harga (Rp)",
             yaxis=dict(rangemode="tozero"),
@@ -748,42 +615,24 @@ elif page == "Peramalan Harga (Forecasting)":
         )
         st.plotly_chart(fig, use_container_width=True)
 
-        # Tabel perbandingan prediksi masa depan
-        st.subheader("Tabel Prediksi Harga 14 Hari Ke Depan (Kelipatan Rp 500 Terdekat)")
-        tbl_df = pd.DataFrame({"Tanggal": future_preds["Random Forest"]["Tanggal"].dt.strftime("%Y-%m-%d")})
-        for model_name, fut_df in future_preds.items():
-            tbl_df[model_name] = fut_df["Harga_Prediksi"].astype(int)
-        st.dataframe(tbl_df)
+        # Tabel prediksi masa depan
+        st.subheader("Tabel Prediksi Harga (Kelipatan Rp 500 Terdekat)")
+        st.dataframe(future_pred.set_index("Tanggal"))
 
-        # EXPANDER DETAIL AKURASI VALIDASI (UJI COBA)
+        # EXPANDER DETAIL AKURASI VALIDASI
         st.markdown("---")
-        with st.expander("Detail Akurasi & Komparasi Validasi (Simulasi 14 Hari Terakhir)"):
-            st.write("Perbandingan performa ketiga model ketika diuji coba menebak data 14 hari terakhir sebelum rilis:")
+        with st.expander("Detail Akurasi Validasi (Simulasi 14 Hari Terakhir)"):
+            st.write("Model XGBoost Regressor diuji coba memprediksi data 14 hari terakhir untuk mengukur keandalan prediksi sebelum dilepas ke sistem.")
+            col_acc1, col_acc2 = st.columns(2)
+            col_acc1.metric("Rata-rata Persentase Error (MAPE)", f"{best_mape:.2f}%", help="Rata-rata persentase penyimpangan prediksi terhadap harga lapangan asli (MAPE).")
+            col_acc2.metric("Rata-rata Selisih Harga (MAE)", f"Rp {int(best_mae):,}", help="Rata-rata selisih nominal harga prediksi model dibandingkan dengan harga lapangan asli dalam Rupiah (MAE).")
             
-            # Buat tabel ringkasan metrik akurasi
-            metrics_summary = []
-            for model_name, (mape, mae) in metrics.items():
-                metrics_summary.append({
-                    "Model": model_name,
-                    "Rata-rata Persentase Error (MAPE)": f"{mape:.2f}%",
-                    "Rata-rata Selisih Harga (MAE)": f"Rp {int(mae):,}"
-                })
-            st.table(pd.DataFrame(metrics_summary))
-            
-            # Plot komparasi tebakan vs aktual lapangan
             if not test_df.empty:
                 fig_eval = go.Figure()
                 fig_eval.add_trace(go.Scatter(x=test_df["Tanggal"], y=test_df["Harga_Bersih"], mode='lines+markers', name='Harga Aktual (Lapangan)', line=dict(color='#00BFFF', width=3)))
-                for model_name, p_val in pred_vals.items():
-                    fig_eval.add_trace(go.Scatter(
-                        x=p_val["Tanggal"],
-                        y=p_val["yhat"],
-                        mode='lines+markers',
-                        name=f'{model_name} (MAPE: {metrics[model_name][0]:.2f}%)',
-                        line=dict(dash='dash', color=colors_fut[model_name])
-                    ))
+                fig_eval.add_trace(go.Scatter(x=pred_val["Tanggal"], y=pred_val["yhat"], mode='lines+markers', name=f'XGBoost Regressor (MAPE: {best_mape:.2f}%)', line=dict(dash='dash', color='green')))
                 fig_eval.update_layout(
-                    title="Perbandingan Tebakan Uji Coba 3 Model vs Harga Lapangan Asli",
+                    title="Komparasi Prediksi vs Aktual (Masa Uji Coba 14 Hari)",
                     xaxis_title="Tanggal",
                     yaxis_title="Harga (Rp)",
                     yaxis=dict(rangemode="tozero"),
@@ -795,7 +644,7 @@ elif page == "Peramalan Harga (Forecasting)":
 
         # DETAIL PENGARUH FAKTOR EKSTERNAL
         with st.expander("Faktor Eksternal Real-Time Cirebon (Pengaruh Regresi ML)"):
-            st.write("Faktor lingkungan dan kebijakan lokal yang dibaca oleh model Random Forest saat ini:")
+            st.write("Faktor lingkungan dan kebijakan lokal yang dibaca oleh model XGBoost saat ini:")
             col_f1, col_f2, col_f3, col_f4 = st.columns(4)
             
             cur_rain = sub_df["Curah_Hujan"].iloc[-1] if "Curah_Hujan" in sub_df.columns else 0.0
@@ -834,7 +683,7 @@ elif page == "Peramalan Harga (Forecasting)":
         # EVALUASI PASCA-DEPLOYMENT
         st.markdown("---")
         with st.expander("Evaluasi Akurasi Pasca-Deployment (Mulai 30 Juni 2026)"):
-            st.write("Skoring akurasi riil dari ketiga model peramalan sejak deployment sistem pada tanggal **30 Juni 2026**.")
+            st.write("Skoring akurasi riil dari model peramalan XGBoost Regressor sejak deployment sistem pada tanggal **30 Juni 2026**.")
             
             post_deploy_actual = sub_df[sub_df["Tanggal"] >= '2026-06-30'].copy()
             post_deploy_train = sub_df[sub_df["Tanggal"] < '2026-06-30'].copy()
@@ -861,22 +710,18 @@ elif page == "Peramalan Harga (Forecasting)":
                 post_deploy_train["Lag_7"] = post_deploy_train["Harga_Bersih"].shift(7)
                 post_deploy_train_clean = post_deploy_train.dropna(subset=["Lag_1", "Lag_2", "Lag_7"])
                 
-                # Predict dengan Direct Forecasting untuk RF & XGB
+                # Predict dengan Direct Forecasting
                 lag1_pd = post_deploy_train["Harga_Bersih"].iloc[-1]
                 lag2_pd = post_deploy_train["Harga_Bersih"].iloc[-2] if len(post_deploy_train) > 1 else lag1_pd
                 lag7_pd = post_deploy_train["Harga_Bersih"].iloc[-7] if len(post_deploy_train) > 6 else lag1_pd
                 
-                preds_rf_pd = [0.0] * len(post_deploy_actual)
-                preds_xgb_pd = [0.0] * len(post_deploy_actual)
+                preds_pd = [0.0] * len(post_deploy_actual)
                 
                 for k in range(len(post_deploy_actual)):
                     post_deploy_train_clean[f"Target_H_{k+1}"] = post_deploy_train_clean["Harga_Bersih"].shift(-(k+1))
                     pd_train_h = post_deploy_train_clean.dropna(subset=[f"Target_H_{k+1}"])
                     
                     if len(pd_train_h) > 30:
-                        rf_h_pd = RandomForestRegressor(n_estimators=30, max_depth=6, random_state=42, n_jobs=-1)
-                        rf_h_pd.fit(pd_train_h[features].fillna(0), pd_train_h[f"Target_H_{k+1}"])
-                        
                         xgb_h_pd = xgb.XGBRegressor(n_estimators=30, max_depth=5, learning_rate=0.1, random_state=42, n_jobs=-1)
                         xgb_h_pd.fit(pd_train_h[features].fillna(0), pd_train_h[f"Target_H_{k+1}"])
                         
@@ -892,87 +737,26 @@ elif page == "Peramalan Harga (Forecasting)":
                             "Hari_Dalam_Tahun": row_act["Hari_Dalam_Tahun"],
                             "Jarak_Ke_Hari_Raya": row_act["Jarak_Ke_Hari_Raya"]
                         }])
-                        preds_rf_pd[k] = rf_h_pd.predict(row_feat)[0]
-                        preds_xgb_pd[k] = xgb_h_pd.predict(row_feat)[0]
+                        preds_pd[k] = xgb_h_pd.predict(row_feat)[0]
                     else:
-                        preds_rf_pd[k] = lag1_pd
-                        preds_xgb_pd[k] = lag1_pd
+                        preds_pd[k] = lag1_pd
                 
-                # Predict dengan LSTM untuk post-deploy
-                prices_pd = post_deploy_train["Harga_Bersih"].values
-                p_min_pd, p_max_pd = prices_pd.min(), prices_pd.max()
-                scaled_pd = (prices_pd - p_min_pd) / (p_max_pd - p_min_pd) if p_max_pd > p_min_pd else prices_pd * 0.0
-                
-                window_size = 30
-                X_lstm_pd, y_lstm_pd = [], []
-                for i in range(len(scaled_pd) - window_size - len(post_deploy_actual) + 1):
-                    X_lstm_pd.append(scaled_pd[i : i + window_size])
-                    y_lstm_pd.append(scaled_pd[i + window_size : i + window_size + len(post_deploy_actual)])
-                    
-                if len(X_lstm_pd) > 10:
-                    X_lstm_pd_t = torch.FloatTensor(np.array(X_lstm_pd)[:, :, np.newaxis])
-                    y_lstm_pd_t = torch.FloatTensor(np.array(y_lstm_pd))
-                    
-                    lstm_pd = SimpleLSTM()
-                    # Menyesuaikan input/output size LSTM untuk post-deploy
-                    lstm_pd.fc = nn.Linear(16, len(post_deploy_actual))
-                    
-                    criterion = nn.MSELoss()
-                    optimizer_pd = optim.Adam(lstm_pd.parameters(), lr=0.01)
-                    
-                    lstm_pd.train()
-                    for epoch in range(60):
-                        optimizer_pd.zero_grad()
-                        loss = criterion(lstm_pd(X_lstm_pd_t), y_lstm_pd_t)
-                        loss.backward()
-                        optimizer_pd.step()
-                        
-                    lstm_pd.eval()
-                    with torch.no_grad():
-                        last_w_pd = scaled_pd[-window_size:]
-                        input_pd_t = torch.FloatTensor(last_w_pd).view(1, window_size, 1)
-                        pred_s_pd = lstm_pd(input_pd_t).numpy()[0]
-                        preds_lstm_pd = pred_s_pd * (p_max_pd - p_min_pd) + p_min_pd
-                else:
-                    preds_lstm_pd = [lag1_pd] * len(post_deploy_actual)
-                
-                # Format Dataframes
-                pd_pred_rf = post_deploy_actual.copy()
-                pd_pred_rf["yhat"] = np.round(np.array(preds_rf_pd[:len(post_deploy_actual)]) / 500.0) * 500.0
-                pd_mape_rf = np.mean(np.abs((pd_pred_rf["Harga_Bersih"] - pd_pred_rf["yhat"]) / pd_pred_rf["Harga_Bersih"])) * 100
-                pd_mae_rf = np.mean(np.abs(pd_pred_rf["Harga_Bersih"] - pd_pred_rf["yhat"]))
-
                 pd_pred_xgb = post_deploy_actual.copy()
-                pd_pred_xgb["yhat"] = np.round(np.array(preds_xgb_pd[:len(post_deploy_actual)]) / 500.0) * 500.0
-                pd_mape_xgb = np.mean(np.abs((pd_pred_xgb["Harga_Bersih"] - pd_pred_xgb["yhat"]) / pd_pred_xgb["Harga_Bersih"])) * 100
-                pd_mae_xgb = np.mean(np.abs(pd_pred_xgb["Harga_Bersih"] - pd_pred_xgb["yhat"]))
-
-                pd_pred_lstm = post_deploy_actual.copy()
-                pd_pred_lstm["yhat"] = np.round(np.array(preds_lstm_pd[:len(post_deploy_actual)]) / 500.0) * 500.0
-                pd_mape_lstm = np.mean(np.abs((pd_pred_lstm["Harga_Bersih"] - pd_pred_lstm["yhat"]) / pd_pred_lstm["Harga_Bersih"])) * 100
-                pd_mae_lstm = np.mean(np.abs(pd_pred_lstm["Harga_Bersih"] - pd_pred_lstm["yhat"]))
-
-                st.write(f"Berikut hasil perbandingan performa **3 model** untuk **{n_days} hari** data riil sejak deployment:")
+                pd_pred_xgb["yhat"] = np.round(np.array(preds_pd[:len(post_deploy_actual)]) / 500.0) * 500.0
                 
-                # Tampilkan tabel metrik pasca-deployment
-                pd_metrics_summary = [
-                    {"Model": "Random Forest", "Rata-rata Persentase Error Riil (MAPE)": f"{pd_mape_rf:.2f}%", "Rata-rata Selisih Harga Riil (MAE)": f"Rp {int(pd_mae_rf):,}"},
-                    {"Model": "XGBoost", "Rata-rata Persentase Error Riil (MAPE)": f"{pd_mape_xgb:.2f}%", "Rata-rata Selisih Harga Riil (MAE)": f"Rp {int(pd_mae_xgb):,}"},
-                    {"Model": "LSTM", "Rata-rata Persentase Error Riil (MAPE)": f"{pd_mape_lstm:.2f}%", "Rata-rata Selisih Harga Riil (MAE)": f"Rp {int(pd_mae_lstm):,}"}
-                ]
-                st.table(pd.DataFrame(pd_metrics_summary))
+                pd_mape = np.mean(np.abs((pd_pred_xgb["Harga_Bersih"] - pd_pred_xgb["yhat"]) / pd_pred_xgb["Harga_Bersih"])) * 100
+                pd_mae = np.mean(np.abs(pd_pred_xgb["Harga_Bersih"] - pd_pred_xgb["yhat"]))
                 
-                # Plot komparasi pasca-deployment
+                st.write(f"Berikut hasil pelacakan performa model untuk **{n_days} hari** data riil sejak deployment:")
+                col_pd1, col_pd2 = st.columns(2)
+                col_pd1.metric("Rata-rata Persentase Error Riil (MAPE)", f"{pd_mape:.2f}%", help="Rata-rata persentase penyimpangan prediksi terhadap harga lapangan asli pasca-deployment (MAPE).")
+                col_pd2.metric("Rata-rata Selisih Harga Riil (MAE)", f"Rp {int(pd_mae):,}", help="Rata-rata selisih nominal harga prediksi model dibandingkan dengan harga lapangan asli dalam Rupiah pasca-deployment (MAE).")
+                
                 fig_pd = go.Figure()
                 fig_pd.add_trace(go.Scatter(x=post_deploy_actual["Tanggal"], y=post_deploy_actual["Harga_Bersih"], mode='lines+markers', name='Harga Aktual (Lapangan)', line=dict(color='#00BFFF', width=3)))
-                
-                colors_fut = {"Random Forest": "red", "XGBoost": "green", "LSTM": "orange"}
-                fig_pd.add_trace(go.Scatter(x=pd_pred_rf["Tanggal"], y=pd_pred_rf["yhat"], mode='lines+markers', name=f'Random Forest (MAPE: {pd_mape_rf:.2f}%)', line=dict(dash='dash', color=colors_fut["Random Forest"])))
-                fig_pd.add_trace(go.Scatter(x=pd_pred_xgb["Tanggal"], y=pd_pred_xgb["yhat"], mode='lines+markers', name=f'XGBoost (MAPE: {pd_mape_xgb:.2f}%)', line=dict(dash='dash', color=colors_fut["XGBoost"])))
-                fig_pd.add_trace(go.Scatter(x=pd_pred_lstm["Tanggal"], y=pd_pred_lstm["yhat"], mode='lines+markers', name=f'LSTM (MAPE: {pd_mape_lstm:.2f}%)', line=dict(dash='dash', color=colors_fut["LSTM"])))
-                
+                fig_pd.add_trace(go.Scatter(x=pd_pred_xgb["Tanggal"], y=pd_pred_xgb["yhat"], mode='lines+markers', name=f'XGBoost Regressor (MAPE: {pd_mape:.1f}%)', line=dict(dash='dash', color='green')))
                 fig_pd.update_layout(
-                    title="Komparasi Prediksi 3 Model vs Aktual Pasca-Deployment (Mulai 30 Juni 2026)",
+                    title="Komparasi Prediksi vs Aktual Pasca-Deployment (Mulai 30 Juni 2026)",
                     xaxis_title="Tanggal",
                     yaxis_title="Harga (Rp)",
                     yaxis=dict(rangemode="tozero"),

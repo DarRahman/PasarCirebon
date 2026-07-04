@@ -7,7 +7,7 @@ import os
 import time
 import re
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from sklearn.ensemble import RandomForestRegressor
+import xgboost as xgb
 
 TARGET_DIR = r"C:\Users\Pongo\Documents\Codingan\Hermes\Data Science\PasarCIrebon"
 DATA_FILE = os.path.join(TARGET_DIR, "master_historis_pangan_cirebon.csv")
@@ -608,8 +608,8 @@ def precalculate_forecasts(df_clean):
             train_df_h = train_df_clean.dropna(subset=[f"Target_H_{k+1}"])
             
             if len(train_df_h) > 30:
-                rf_h = RandomForestRegressor(n_estimators=30, max_depth=6, random_state=42, n_jobs=1)
-                rf_h.fit(train_df_h[features].fillna(0), train_df_h[f"Target_H_{k+1}"])
+                xgb_h = xgb.XGBRegressor(n_estimators=30, max_depth=5, learning_rate=0.1, random_state=42, n_jobs=-1)
+                xgb_h.fit(train_df_h[features].fillna(0), train_df_h[f"Target_H_{k+1}"])
                 
                 # Prediksi test_df pada hari ke-k menggunakan lag statis terakhir dari train_df
                 row_test = test_df.iloc[k]
@@ -624,7 +624,7 @@ def precalculate_forecasts(df_clean):
                     "Hari_Dalam_Tahun": row_test["Hari_Dalam_Tahun"],
                     "Jarak_Ke_Hari_Raya": row_test["Jarak_Ke_Hari_Raya"]
                 }])
-                preds_test[k] = rf_h.predict(row_feat)[0]
+                preds_test[k] = xgb_h.predict(row_feat)[0]
             else:
                 preds_test[k] = lag1_val
                 
@@ -654,8 +654,8 @@ def precalculate_forecasts(df_clean):
             eval_df_h = eval_df_clean.dropna(subset=[f"Target_H_{k+1}"])
             
             if len(eval_df_h) > 30:
-                rf_h_final = RandomForestRegressor(n_estimators=30, max_depth=6, random_state=42, n_jobs=1)
-                rf_h_final.fit(eval_df_h[features].fillna(0), eval_df_h[f"Target_H_{k+1}"])
+                xgb_h_final = xgb.XGBRegressor(n_estimators=30, max_depth=5, learning_rate=0.1, random_state=42, n_jobs=-1)
+                xgb_h_final.fit(eval_df_h[features].fillna(0), eval_df_h[f"Target_H_{k+1}"])
                 
                 row_feat_fut = pd.DataFrame([{
                     "Curah_Hujan": future_features["Curah_Hujan"].iloc[k],
@@ -668,7 +668,7 @@ def precalculate_forecasts(df_clean):
                     "Hari_Dalam_Tahun": future_features["Hari_Dalam_Tahun"].iloc[k],
                     "Jarak_Ke_Hari_Raya": future_features["Jarak_Ke_Hari_Raya"].iloc[k]
                 }])
-                preds_future[k] = rf_h_final.predict(row_feat_fut)[0]
+                preds_future[k] = xgb_h_final.predict(row_feat_fut)[0]
             else:
                 preds_future[k] = lag1_final
             
