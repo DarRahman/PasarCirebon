@@ -366,14 +366,17 @@ def main():
         q3 = diffs.quantile(0.75)
         iqr = q3 - q1
         
-        # Batasan outlier realistis dengan minimum threshold dinamis
-        lower_bound = q1 - 3.0 * iqr
-        upper_bound = q3 + 3.0 * iqr
+        # Batasan outlier realistis dengan minimum threshold dinamis yang diperketat
+        # Pengali IQR dinaikkan ke 6.0 agar tidak sensitif terhadap fluktuasi harian biasa
+        lower_bound = q1 - 6.0 * iqr
+        upper_bound = q3 + 6.0 * iqr
         
         median_price = g_resampled["Harga"].median()
         if pd.isna(median_price) or median_price <= 0:
             median_price = 10000.0
-        min_diff = max(2000.0, 0.1 * median_price)
+            
+        # Toleransi minimal dinaikkan menjadi Rp 5.000 atau 25% dari median harga komoditas
+        min_diff = max(5000.0, 0.25 * median_price)
         
         effective_lower = min(lower_bound, -min_diff)
         effective_upper = max(upper_bound, min_diff)
