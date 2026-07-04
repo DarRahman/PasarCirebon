@@ -4,6 +4,10 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 from sklearn.ensemble import RandomForestRegressor
+import xgboost as xgb
+import torch
+import torch.nn as nn
+import torch.optim as optim
 from prophet import Prophet
 from pathlib import Path
 import os
@@ -74,6 +78,15 @@ HOLIDAYS = sorted(pd.to_datetime([
     "2027-01-01", "2027-03-09", "2027-05-16", "2027-12-25"
 ]))
 
+class SimpleLSTM(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.lstm = nn.LSTM(1, 16, batch_first=True)
+        self.fc = nn.Linear(16, 14)
+    def forward(self, x):
+        out, _ = self.lstm(x)
+        return self.fc(out[:, -1, :])
+
 @st.cache_data
 def get_forecast(selected_commodity, selected_market, _df_full, days_to_predict=14):
     # Filter data spesifik komoditas dan pasar
@@ -100,16 +113,22 @@ def get_forecast(selected_commodity, selected_market, _df_full, days_to_predict=
     next_holidays = pd.to_datetime([HOLIDAYS[i] for i in idx])
     sub_df["Jarak_Ke_Hari_Raya"] = (next_holidays - sub_df["Tanggal"]).dt.days
     
+    # Generate future dates
+    future_dates = pd.date_range(start=sub_df["Tanggal"].max() + pd.Timedelta(days=1), periods=days_to_predict, freq='D')
+    
     if len(sub_df) <= 100:
-        future_dates = pd.date_range(start=sub_df["Tanggal"].max() + pd.Timedelta(days=1), periods=days_to_predict, freq='D')
         last_val = sub_df["Harga_Bersih"].iloc[-1] if not sub_df.empty else 0.0
-        future_pred = pd.DataFrame({
-            "Tanggal": future_dates,
-            "Harga_Prediksi": [last_val] * days_to_predict
-        })
-        future_pred["Harga_Prediksi"] = np.round(future_pred["Harga_Prediksi"] / 500.0) * 500.0
-        return future_pred, 0.0, 0.0, pd.DataFrame(), pd.DataFrame()
+        f_pred_rf = pd.DataFrame({"Tanggal": future_dates, "Harga_Prediksi": [last_val] * days_to_predict})
+        f_pred_rf["Harga_Prediksi"] = np.round(f_pred_rf["Harga_Prediksi"] / 500.0) * 500.0
         
+        future_preds = {"Random Forest": f_pred_rf, "XGBoost": f_pred_rf.copy(), "LSTM": f_pred_rf.copy()}
+        metrics = {
+            "Random Forest": (0.0, 0.0),
+            "XGBoost": (0.0, 0.0),
+            "LSTM": (0.0, 0.0)
+        }
+        return future_preds, metrics, pd.DataFrame(), {}
+
     eval_df = sub_df.copy()
     
     # Validasi 14 hari terakhir
@@ -125,32 +144,37 @@ def get_forecast(selected_commodity, selected_market, _df_full, days_to_predict=
     features = ["Curah_Hujan", "Suhu_Rata", "MBG_Aktif", "Sentimen_Berita", "Lag_1", "Lag_2", "Lag_7", "Hari_Dalam_Tahun", "Jarak_Ke_Hari_Raya"]
     
     if len(train_df_clean) <= 60 or len(test_df) == 0:
-        future_dates = pd.date_range(start=eval_df["Tanggal"].max() + pd.Timedelta(days=1), periods=days_to_predict, freq='D')
         last_val = eval_df["Harga_Bersih"].iloc[-1]
-        future_pred = pd.DataFrame({
-            "Tanggal": future_dates,
-            "Harga_Prediksi": [last_val] * days_to_predict
-        })
-        future_pred["Harga_Prediksi"] = np.round(future_pred["Harga_Prediksi"] / 500.0) * 500.0
-        return future_pred, 0.0, 0.0, pd.DataFrame(), pd.DataFrame()
+        f_pred_rf = pd.DataFrame({"Tanggal": future_dates, "Harga_Prediksi": [last_val] * days_to_predict})
+        f_pred_rf["Harga_Prediksi"] = np.round(f_pred_rf["Harga_Prediksi"] / 500.0) * 500.0
         
-    # Ganti model Rekursif dengan Direct/Multi-Output: Latih model terpisah untuk setiap horizon k (1-14 hari)
-    # Untuk Model Validasi (uji coba 14 hari terakhir)
-    preds_test = [0.0] * days_to_predict
+        future_preds = {"Random Forest": f_pred_rf, "XGBoost": f_pred_rf.copy(), "LSTM": f_pred_rf.copy()}
+        metrics = {
+            "Random Forest": (0.0, 0.0),
+            "XGBoost": (0.0, 0.0),
+            "LSTM": (0.0, 0.0)
+        }
+        return future_preds, metrics, pd.DataFrame(), {}
+        
+    # --- TRAINING MODEL VALIDASI (14 HARI TERAKHIR) ---
+    preds_rf_val = [0.0] * days_to_predict
+    preds_xgb_val = [0.0] * days_to_predict
     
-    # Lag temporal didasarkan pada data aktual terakhir di train_df sebelum test_df mulai
     lag1_val = train_df["Harga_Bersih"].iloc[-1]
     lag2_val = train_df["Harga_Bersih"].iloc[-2] if len(train_df) > 1 else lag1_val
     lag7_val = train_df["Harga_Bersih"].iloc[-7] if len(train_df) > 6 else lag1_val
     
-    # Fitur dasar untuk test
+    # 1. RF & XGBoost (Direct Validation)
     for k in range(days_to_predict):
         train_df_clean[f"Target_H_{k+1}"] = train_df_clean["Harga_Bersih"].shift(-(k+1))
         train_df_h = train_df_clean.dropna(subset=[f"Target_H_{k+1}"])
         
         if len(train_df_h) > 30:
-            rf_h = RandomForestRegressor(n_estimators=30, max_depth=6, random_state=42, n_jobs=1)
-            rf_h.fit(train_df_h[features].fillna(0), train_df_h[f"Target_H_{k+1}"])
+            rf_h = RandomForestRegressor(n_estimators=20, max_depth=5, random_state=42, n_jobs=-1)
+            rf_h.fit(train_h := train_df_h[features].fillna(0), train_df_h[f"Target_H_{k+1}"])
+            
+            xgb_h = xgb.XGBRegressor(n_estimators=20, max_depth=4, learning_rate=0.1, random_state=42, n_jobs=-1)
+            xgb_h.fit(train_h, train_df_h[f"Target_H_{k+1}"])
             
             row_test = test_df.iloc[k]
             row_feat = pd.DataFrame([{
@@ -164,17 +188,63 @@ def get_forecast(selected_commodity, selected_market, _df_full, days_to_predict=
                 "Hari_Dalam_Tahun": row_test["Hari_Dalam_Tahun"],
                 "Jarak_Ke_Hari_Raya": row_test["Jarak_Ke_Hari_Raya"]
             }])
-            preds_test[k] = rf_h.predict(row_feat)[0]
+            preds_rf_val[k] = rf_h.predict(row_feat)[0]
+            preds_xgb_val[k] = xgb_h.predict(row_feat)[0]
         else:
-            preds_test[k] = lag1_val
+            preds_rf_val[k] = lag1_val
+            preds_xgb_val[k] = lag1_val
             
-    pred_rf = test_df.copy()
-    pred_rf["yhat"] = np.round(np.array(preds_test) / 500.0) * 500.0
+    pred_rf_val_df = test_df.copy()
+    pred_rf_val_df["yhat"] = np.round(np.array(preds_rf_val) / 500.0) * 500.0
+    mape_rf = np.mean(np.abs((pred_rf_val_df["Harga_Bersih"] - pred_rf_val_df["yhat"]) / pred_rf_val_df["Harga_Bersih"])) * 100
+    mae_rf = np.mean(np.abs(pred_rf_val_df["Harga_Bersih"] - pred_rf_val_df["yhat"]))
+
+    pred_xgb_val_df = test_df.copy()
+    pred_xgb_val_df["yhat"] = np.round(np.array(preds_xgb_val) / 500.0) * 500.0
+    mape_xgb = np.mean(np.abs((pred_xgb_val_df["Harga_Bersih"] - pred_xgb_val_df["yhat"]) / pred_xgb_val_df["Harga_Bersih"])) * 100
+    mae_xgb = np.mean(np.abs(pred_xgb_val_df["Harga_Bersih"] - pred_xgb_val_df["yhat"]))
+
+    # 2. LSTM (Validation)
+    prices_train = train_df["Harga_Bersih"].values
+    p_min_val, p_max_val = prices_train.min(), prices_train.max()
+    scaled_train = (prices_train - p_min_val) / (p_max_val - p_min_val) if p_max_val > p_min_val else prices_train * 0.0
     
-    mape_rf = np.mean(np.abs((pred_rf["Harga_Bersih"] - pred_rf["yhat"]) / pred_rf["Harga_Bersih"])) * 100
-    mae_rf = np.mean(np.abs(pred_rf["Harga_Bersih"] - pred_rf["yhat"]))
-    
-    # Train model final pada seluruh data historis
+    window_size = 30
+    X_lstm, y_lstm = [], []
+    for i in range(len(scaled_train) - window_size - days_to_predict + 1):
+        X_lstm.append(scaled_train[i : i + window_size])
+        y_lstm.append(scaled_train[i + window_size : i + window_size + days_to_predict])
+        
+    if len(X_lstm) > 10:
+        X_lstm_t = torch.FloatTensor(np.array(X_lstm)[:, :, np.newaxis])
+        y_lstm_t = torch.FloatTensor(np.array(y_lstm))
+        
+        lstm_val = SimpleLSTM()
+        criterion = nn.MSELoss()
+        optimizer = optim.Adam(lstm_val.parameters(), lr=0.01)
+        
+        lstm_val.train()
+        for epoch in range(60):
+            optimizer.zero_grad()
+            loss = criterion(lstm_val(X_lstm_t), y_lstm_t)
+            loss.backward()
+            optimizer.step()
+            
+        lstm_val.eval()
+        with torch.no_grad():
+            last_w = scaled_train[-window_size:]
+            input_t = torch.FloatTensor(last_w).view(1, window_size, 1)
+            pred_s = lstm_val(input_t).numpy()[0]
+            preds_lstm_val = pred_s * (p_max_val - p_min_val) + p_min_val
+    else:
+        preds_lstm_val = [lag1_val] * days_to_predict
+
+    pred_lstm_val_df = test_df.copy()
+    pred_lstm_val_df["yhat"] = np.round(np.array(preds_lstm_val) / 500.0) * 500.0
+    mape_lstm = np.mean(np.abs((pred_lstm_val_df["Harga_Bersih"] - pred_lstm_val_df["yhat"]) / pred_lstm_val_df["Harga_Bersih"])) * 100
+    mae_lstm = np.mean(np.abs(pred_lstm_val_df["Harga_Bersih"] - pred_lstm_val_df["yhat"]))
+
+    # --- TRAINING MODEL FINAL (PROYEKSI MASA DEPAN) ---
     eval_df["Lag_1"] = eval_df["Harga_Bersih"].shift(1)
     eval_df["Lag_2"] = eval_df["Harga_Bersih"].shift(2)
     eval_df["Lag_7"] = eval_df["Harga_Bersih"].shift(7)
@@ -184,9 +254,7 @@ def get_forecast(selected_commodity, selected_market, _df_full, days_to_predict=
     lag2_final = eval_df["Harga_Bersih"].iloc[-2] if len(eval_df) > 1 else lag1_final
     lag7_final = eval_df["Harga_Bersih"].iloc[-7] if len(eval_df) > 6 else lag1_final
     
-    # Generate Forecast untuk masa depan 14 hari
-    future_dates = pd.date_range(start=eval_df["Tanggal"].max() + pd.Timedelta(days=1), periods=days_to_predict, freq='D')
-    
+    # Generate Weather & News for future
     from update_harian import fetch_weather_data, get_mbg_status, fetch_news_sentiment
     df_w_fut = fetch_weather_data(future_dates.min(), future_dates.max())
     news_sent_fut = fetch_news_sentiment()
@@ -195,22 +263,25 @@ def get_forecast(selected_commodity, selected_market, _df_full, days_to_predict=
     future_features = future_features.merge(df_w_fut, on="Tanggal", how="left").fillna(0)
     future_features["MBG_Aktif"] = future_features["Tanggal"].apply(get_mbg_status)
     future_features["Sentimen_Berita"] = news_sent_fut
-    
     future_features["Hari_Dalam_Tahun"] = future_features["Tanggal"].dt.dayofyear
     idx_fut = np.searchsorted(HOLIDAYS, future_features["Tanggal"])
     idx_fut = np.clip(idx_fut, 0, len(HOLIDAYS) - 1)
     next_holidays_fut = pd.to_datetime([HOLIDAYS[i] for i in idx_fut])
     future_features["Jarak_Ke_Hari_Raya"] = (next_holidays_fut - future_features["Tanggal"]).dt.days
     
-    preds_future = [0.0] * days_to_predict
+    preds_rf_future = [0.0] * days_to_predict
+    preds_xgb_future = [0.0] * days_to_predict
     
     for k in range(days_to_predict):
         eval_df_clean[f"Target_H_{k+1}"] = eval_df_clean["Harga_Bersih"].shift(-(k+1))
         eval_df_h = eval_df_clean.dropna(subset=[f"Target_H_{k+1}"])
         
         if len(eval_df_h) > 30:
-            rf_final_h = RandomForestRegressor(n_estimators=30, max_depth=6, random_state=42, n_jobs=1)
-            rf_final_h.fit(eval_df_h[features].fillna(0), eval_df_h[f"Target_H_{k+1}"])
+            rf_f = RandomForestRegressor(n_estimators=20, max_depth=5, random_state=42, n_jobs=-1)
+            rf_f.fit(eval_h := eval_df_h[features].fillna(0), eval_df_h[f"Target_H_{k+1}"])
+            
+            xgb_f = xgb.XGBRegressor(n_estimators=20, max_depth=4, learning_rate=0.1, random_state=42, n_jobs=-1)
+            xgb_f.fit(eval_h, eval_df_h[f"Target_H_{k+1}"])
             
             row_feat = pd.DataFrame([{
                 "Curah_Hujan": future_features["Curah_Hujan"].iloc[k],
@@ -223,17 +294,65 @@ def get_forecast(selected_commodity, selected_market, _df_full, days_to_predict=
                 "Hari_Dalam_Tahun": future_features["Hari_Dalam_Tahun"].iloc[k],
                 "Jarak_Ke_Hari_Raya": future_features["Jarak_Ke_Hari_Raya"].iloc[k]
             }])
-            preds_future[k] = rf_final_h.predict(row_feat)[0]
+            preds_rf_future[k] = rf_f.predict(row_feat)[0]
+            preds_xgb_future[k] = xgb_f.predict(row_feat)[0]
         else:
-            preds_future[k] = lag1_final
-        
-    future_pred = pd.DataFrame({
-        "Tanggal": future_dates,
-        "Harga_Prediksi": preds_future
-    })
-    future_pred["Harga_Prediksi"] = np.round(future_pred["Harga_Prediksi"] / 500.0) * 500.0
+            preds_rf_future[k] = lag1_final
+            preds_xgb_future[k] = lag1_final
+            
+    # Final LSTM Model
+    prices_eval = eval_df["Harga_Bersih"].values
+    p_min_eval, p_max_eval = prices_eval.min(), prices_eval.max()
+    scaled_eval = (prices_eval - p_min_eval) / (p_max_eval - p_min_eval) if p_max_eval > p_min_eval else prices_eval * 0.0
     
-    return future_pred, mape_rf, mae_rf, test_df, pred_rf
+    X_lstm_f, y_lstm_f = [], []
+    for i in range(len(scaled_eval) - window_size - days_to_predict + 1):
+        X_lstm_f.append(scaled_eval[i : i + window_size])
+        y_lstm_f.append(scaled_eval[i + window_size : i + window_size + days_to_predict])
+        
+    if len(X_lstm_f) > 10:
+        X_lstm_f_t = torch.FloatTensor(np.array(X_lstm_f)[:, :, np.newaxis])
+        y_lstm_f_t = torch.FloatTensor(np.array(y_lstm_f))
+        
+        lstm_f = SimpleLSTM()
+        optimizer_f = optim.Adam(lstm_f.parameters(), lr=0.01)
+        
+        lstm_f.train()
+        for epoch in range(60):
+            optimizer_f.zero_grad()
+            loss = criterion(lstm_f(X_lstm_f_t), y_lstm_f_t)
+            loss.backward()
+            optimizer_f.step()
+            
+        lstm_f.eval()
+        with torch.no_grad():
+            last_w_f = scaled_eval[-window_size:]
+            input_f_t = torch.FloatTensor(last_w_f).view(1, window_size, 1)
+            pred_s_f = lstm_f(input_f_t).numpy()[0]
+            preds_lstm_future = pred_s_f * (p_max_eval - p_min_eval) + p_min_eval
+    else:
+        preds_lstm_future = [lag1_final] * days_to_predict
+        
+    # Compile Dataframes
+    future_preds = {
+        "Random Forest": pd.DataFrame({"Tanggal": future_dates, "Harga_Prediksi": np.round(np.array(preds_rf_future) / 500.0) * 500.0}),
+        "XGBoost": pd.DataFrame({"Tanggal": future_dates, "Harga_Prediksi": np.round(np.array(preds_xgb_future) / 500.0) * 500.0}),
+        "LSTM": pd.DataFrame({"Tanggal": future_dates, "Harga_Prediksi": np.round(np.array(preds_lstm_future) / 500.0) * 500.0})
+    }
+    
+    metrics = {
+        "Random Forest": (mape_rf, mae_rf),
+        "XGBoost": (mape_xgb, mae_xgb),
+        "LSTM": (mape_lstm, mae_lstm)
+    }
+    
+    pred_vals = {
+        "Random Forest": pred_rf_val_df,
+        "XGBoost": pred_xgb_val_df,
+        "LSTM": pred_lstm_val_df
+    }
+    
+    return future_preds, metrics, test_df, pred_vals
 
 def get_forecast_precalculated(commodity, market, _df):
     forecast_path = BASE_DIR / "forecast_14_hari.csv"
@@ -584,42 +703,15 @@ elif page == "Peramalan Harga (Forecasting)":
     sub_df = sub_df.sort_values("Tanggal").drop_duplicates(subset=["Tanggal"]).reset_index(drop=True)
 
     if len(sub_df) > 100:
-        forecast_path = BASE_DIR / "forecast_14_hari.csv"
-        metrics_path = BASE_DIR / "validation_metrics.csv"
-        val_detail_path = BASE_DIR / "validation_detail.csv"
-        
-        try:
-            forecast_df = pd.read_csv(forecast_path)
-            forecast_df["Tanggal"] = pd.to_datetime(forecast_df["Tanggal"])
-            
-            metrics_df = pd.read_csv(metrics_path)
-            
-            future_pred = forecast_df[(forecast_df["Komoditas"] == selected_commodity) & (forecast_df["Pasar"] == selected_market)].copy()
-            future_pred = future_pred.sort_values("Tanggal").reset_index(drop=True)
-            
-            metrics_row = metrics_df[(metrics_df["Komoditas"] == selected_commodity) & (metrics_df["Pasar"] == selected_market)].iloc[0]
-            best_mape = metrics_row["MAPE_Validasi"]
-            best_mae = metrics_row["MAE_Validasi"]
-            akurat_count = int(metrics_row["Akurat_Count"])
-            total_count = int(metrics_row["Total_Count"])
-            
-            if val_detail_path.exists():
-                val_detail = pd.read_csv(val_detail_path)
-                val_detail["Tanggal"] = pd.to_datetime(val_detail["Tanggal"])
-                pred_val = val_detail[(val_detail["Komoditas"] == selected_commodity) & (val_detail["Pasar"] == selected_market)].copy()
-            else:
-                pred_val = pd.DataFrame()
-            test_df = pred_val.copy()
-        except Exception as e:
-            with st.spinner("Menghitung model Random Forest dan memprediksi 14 hari ke depan..."):
-                future_pred, best_mape, best_mae, test_df, pred_val = get_forecast(selected_commodity, selected_market, df, days_to_predict=14)
-                akurat_count = 14
-                total_count = 14
-            
-        future_pred["Harga_Prediksi"] = future_pred["Harga_Prediksi"].astype(int)
-        future_pred = future_pred.set_index("Tanggal")
+        # Latih model secara dinamis untuk perbandingan 3 model sekaligus
+        with st.spinner("Melatih model Random Forest, XGBoost, dan LSTM secara bersamaan..."):
+            try:
+                future_preds, metrics, test_df, pred_vals = get_forecast(selected_commodity, selected_market, df, days_to_predict=14)
+            except Exception as e:
+                st.error(f"Gagal melatih model: {e}")
+                st.stop()
 
-        # Plot Grafik Prediksi Utama
+        # Plot Grafik Prediksi Utama (Perbandingan 3 Model untuk Masa Depan)
         fig = go.Figure()
         
         # Historis 6 bulan terakhir
@@ -629,46 +721,72 @@ elif page == "Peramalan Harga (Forecasting)":
             y=recent_df["Harga_Bersih"],
             mode='lines',
             name='Harga Historis Bersih (180 Hari Terakhir)',
-            line=dict(color='blue')
+            line=dict(color='#00BFFF', width=2)
         ))
 
-        # Prediksi masa depan
-        fig.add_trace(go.Scatter(
-            x=future_pred.index,
-            y=future_pred["Harga_Prediksi"],
-            mode='lines+markers',
-            name='Prediksi Masa Depan (14 Hari)',
-            line=dict(color='red', dash='dash')
-        ))
+        # Prediksi masa depan untuk ketiga model
+        colors_fut = {
+            "Random Forest": "red",
+            "XGBoost": "green",
+            "LSTM": "orange"
+        }
+        for model_name, fut_df in future_preds.items():
+            fig.add_trace(go.Scatter(
+                x=fut_df["Tanggal"],
+                y=fut_df["Harga_Prediksi"],
+                mode='lines+markers',
+                name=f'Prediksi {model_name} (14 Hari)',
+                line=dict(color=colors_fut[model_name], dash='dash')
+            ))
 
         fig.update_layout(
-            title=f"Peramalan Harga {selected_commodity} di {selected_market} (Horizon: 14 Hari)",
+            title=f"Peramalan Harga {selected_commodity} di {selected_market} (Horizon: 14 Hari) - Perbandingan 3 Model",
             xaxis_title="Tanggal",
             yaxis_title="Harga (Rp)",
+            yaxis=dict(rangemode="tozero"),
             template="plotly_white"
         )
         st.plotly_chart(fig, use_container_width=True)
 
+        # Tabel perbandingan prediksi masa depan
+        st.subheader("Tabel Prediksi Harga 14 Hari Ke Depan (Kelipatan Rp 500 Terdekat)")
+        tbl_df = pd.DataFrame({"Tanggal": future_preds["Random Forest"]["Tanggal"].dt.strftime("%Y-%m-%d")})
+        for model_name, fut_df in future_preds.items():
+            tbl_df[model_name] = fut_df["Harga_Prediksi"].astype(int)
+        st.dataframe(tbl_df)
 
-
-        st.subheader("Tabel Prediksi Harga (Kelipatan Rp 500 Terdekat)")
-        st.dataframe(future_pred)
-
-        # EXPANDER DETAIL AKURASI VALIDASI
+        # EXPANDER DETAIL AKURASI VALIDASI (UJI COBA)
         st.markdown("---")
-        with st.expander("Detail Akurasi Validasi (Simulasi 14 Hari Terakhir)"):
-            st.write("Model Random Forest diuji coba memprediksi data 14 hari terakhir untuk mengukur keandalan prediksi sebelum dilepas ke sistem.")
-            col_acc1, col_acc2 = st.columns(2)
-            col_acc1.metric("Rata-rata Persentase Error (MAPE)", f"{best_mape:.2f}%", help="Rata-rata persentase penyimpangan prediksi terhadap harga lapangan asli (MAPE).")
-            col_acc2.metric("Rata-rata Selisih Harga (MAE)", f"Rp {int(best_mae):,}", help="Rata-rata selisih nominal harga prediksi model dibandingkan dengan harga lapangan asli dalam Rupiah (MAE).")
-            if not pred_val.empty:
+        with st.expander("Detail Akurasi & Komparasi Validasi (Simulasi 14 Hari Terakhir)"):
+            st.write("Perbandingan performa ketiga model ketika diuji coba menebak data 14 hari terakhir sebelum rilis:")
+            
+            # Buat tabel ringkasan metrik akurasi
+            metrics_summary = []
+            for model_name, (mape, mae) in metrics.items():
+                metrics_summary.append({
+                    "Model": model_name,
+                    "Rata-rata Persentase Error (MAPE)": f"{mape:.2f}%",
+                    "Rata-rata Selisih Harga (MAE)": f"Rp {int(mae):,}"
+                })
+            st.table(pd.DataFrame(metrics_summary))
+            
+            # Plot komparasi tebakan vs aktual lapangan
+            if not test_df.empty:
                 fig_eval = go.Figure()
                 fig_eval.add_trace(go.Scatter(x=test_df["Tanggal"], y=test_df["Harga_Bersih"], mode='lines+markers', name='Harga Aktual (Lapangan)', line=dict(color='#00BFFF', width=3)))
-                fig_eval.add_trace(go.Scatter(x=pred_val["Tanggal"], y=pred_val["yhat"], mode='lines+markers', name=f'Random Forest (MAPE: {best_mape:.2f}%)', line=dict(dash='dash', color='purple')))
+                for model_name, p_val in pred_vals.items():
+                    fig_eval.add_trace(go.Scatter(
+                        x=p_val["Tanggal"],
+                        y=p_val["yhat"],
+                        mode='lines+markers',
+                        name=f'{model_name} (MAPE: {metrics[model_name][0]:.2f}%)',
+                        line=dict(dash='dash', color=colors_fut[model_name])
+                    ))
                 fig_eval.update_layout(
-                    title="Komparasi Prediksi vs Aktual (Masa Uji Coba 14 Hari)",
+                    title="Perbandingan Tebakan Uji Coba 3 Model vs Harga Lapangan Asli",
                     xaxis_title="Tanggal",
                     yaxis_title="Harga (Rp)",
+                    yaxis=dict(rangemode="tozero"),
                     template="plotly_white"
                 )
                 st.plotly_chart(fig_eval, use_container_width=True)
