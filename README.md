@@ -8,7 +8,7 @@ Proyek ini menyajikan sistem pemantauan, audit kualitas, dan peramalan harga bah
 
 Sistem dibangun menggunakan ekosistem Python modern dengan pustaka-pustaka standar industri berikut:
 * **Analisis & Manipulasi Data**: `pandas` (ETL, pivoting, data wrangling) dan `numpy` (operasi numerik & kalkulasi vektor).
-* **Pemodelan Machine Learning**: `scikit-learn` (Random Forest Regressor untuk regresi multivariat & Linear Regression untuk trend detrending).
+* **Pemodelan Machine Learning**: `xgboost` (XGBoost Regressor untuk regresi multivariat runtun waktu cepat & presisi) dan `scikit-learn` (Linear Regression untuk trend detrending).
 * **Visualisasi & Dashboard**: `streamlit` (kerangka antarmuka aplikasi web) dan `plotly` (grafik interaktif runtun waktu & audit trail).
 * **Scraping & Request API**: `requests` (penarik data cuaca Open-Meteo & API berita) dan `importlib` (manajemen reloading modul harian).
 
@@ -19,7 +19,7 @@ Sistem dibangun menggunakan ekosistem Python modern dengan pustaka-pustaka stand
 Sistem ini memisahkan proses pengolahan data (ETL/Modeling) dengan antarmuka pengguna untuk menjaga efisiensi dan stabilitas:
 
 1. **Pipeline ETL & Automated Scraping (`update_harian.py`)**
-   * Berjalan secara terjadwal otomatis (Cron Job / Windows Task Scheduler) setiap hari pada pukul **13:00 WIB** (sesuai waktu pembaruan portal dinas).
+   * Berjalan secara terjadwal otomatis (Cron Job / Windows Task Scheduler) setiap hari pada pukul **13:00 WIB**.
    * Mengunduh data harian dari portal resmi Kemendag Kepokmas Kabupaten Cirebon secara terprogram.
    * Melakukan pembersihan data otomatis, scraping berita & cuaca terbaru, retraining model, dan memperbarui database.
 
@@ -38,9 +38,9 @@ Data mentah laporan petugas pasar sering kali memiliki anomali akibat kesalahan 
 
 ---
 
-## Model Peramalan: Random Forest 14 Hari (Multi-Faktor)
+## Model Peramalan: XGBoost 14 Hari (Multi-Faktor)
 
-Harga pangan harian pasar tradisional sangat fluktuatif dalam jangka pendek. Sistem membatasi horizon peramalan secara realistis hingga **14 hari ke depan** menggunakan model **Random Forest Regressor** dengan mengintegrasikan faktor penentu harga:
+Harga pangan harian pasar tradisional sangat fluktuatif dalam jangka pendek. Sistem membatasi horizon peramalan secara realistis hingga **14 hari ke depan** menggunakan model **XGBoost Regressor** dengan mengintegrasikan faktor penentu harga:
 
 * **Siklus Cuaca & Hama (Open-Meteo API)**: Parameter `Curah_Hujan` dan `Suhu_Rata` harian untuk mengukur risiko gagal panen.
 * **Sentimen Publik (Google News RSS)**: Pengukur sentimen berita pangan lokal (isu kelangkaan pasokan atau ketersediaan stok).
@@ -53,9 +53,9 @@ Harga pangan harian pasar tradisional sangat fluktuatif dalam jangka pendek. Sis
 
 ## Metrik Akurasi & Validasi
 
-Sistem mengukur performa model dengan persentase kemiripan terhadap kondisi nyata:
-* **Skor Akurasi Prediksi**: Dihitung dari 100% dikurangi persentase kesalahan (MAPE). Semakin mendekati 100%, prediksi model semakin akurat.
-* **Rata-rata Selisih Harga (MAE)**: Selisih kesalahan tebakan model dalam satuan Rupiah dari harga lapangan asli.
+Sistem mengukur performa model dengan metrik statistik standar industri yang objektif dan bebas bias:
+* **Rata-rata Persentase Error (MAPE)**: Rata-rata persentase penyimpangan garis prediksi dari harga aktual lapangan asli.
+* **Rata-rata Selisih Harga (MAE)**: Rata-rata selisih nominal kesalahan tebakan model dalam Rupiah dari harga lapangan asli.
 
 ---
 
@@ -64,7 +64,7 @@ Sistem mengukur performa model dengan persentase kemiripan terhadap kondisi nyat
 ### 1. Dependensi
 Pastikan Python 3.9+ telah terpasang. Instalasi pustaka pendukung dapat dilakukan cepat menggunakan:
 ```bash
-pip install pandas numpy streamlit plotly scikit-learn requests beautifulsoup4
+pip install pandas numpy streamlit plotly xgboost torch requests beautifulsoup4
 ```
 
 ### 2. Langkah Pertama (Inisialisasi Data & Training)

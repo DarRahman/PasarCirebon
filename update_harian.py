@@ -306,29 +306,34 @@ def main():
             all_new_records.extend(res)
             
     if not all_new_records:
-        print("Tidak ada data baru yang ditarik dari web.")
-        return
-        
-    df_new = pd.DataFrame(all_new_records)
-    df_new["Tanggal"] = pd.to_datetime(df_new["Tanggal"])
-    
-    # 2. Muat dan gabungkan ke master CSV
-    if os.path.exists(DATA_FILE):
-        df_master = pd.read_csv(DATA_FILE)
-        df_master["Tanggal"] = pd.to_datetime(df_master["Tanggal"])
-        df_total = pd.concat([df_master, df_new], ignore_index=True)
+        print("Tidak ada data baru yang ditarik dari web. Menggunakan data master lokal yang ada.")
+        if os.path.exists(DATA_FILE):
+            df_total = pd.read_csv(DATA_FILE)
+            df_total["Tanggal"] = pd.to_datetime(df_total["Tanggal"])
+        else:
+            print("File master tidak ditemukan! Keluar.")
+            return
     else:
-        df_total = df_new
+        df_new = pd.DataFrame(all_new_records)
+        df_new["Tanggal"] = pd.to_datetime(df_new["Tanggal"])
         
-    df_total = df_total.drop_duplicates(subset=["Tanggal", "Pasar", "Komoditas"], keep="last")
-    df_total = df_total.sort_values(["Pasar", "Komoditas", "Tanggal"]).reset_index(drop=True)
-    
-    # Satukan kolom Harga (hasil scraping baru) dan Harga_Numerik (data historis lama)
-    if "Harga_Numerik" in df_total.columns:
-        df_total["Harga"] = df_total["Harga"].fillna(df_total["Harga_Numerik"])
+        # 2. Muat dan gabungkan ke master CSV
+        if os.path.exists(DATA_FILE):
+            df_master = pd.read_csv(DATA_FILE)
+            df_master["Tanggal"] = pd.to_datetime(df_master["Tanggal"])
+            df_total = pd.concat([df_master, df_new], ignore_index=True)
+        else:
+            df_total = df_new
+            
+        df_total = df_total.drop_duplicates(subset=["Tanggal", "Pasar", "Komoditas"], keep="last")
+        df_total = df_total.sort_values(["Pasar", "Komoditas", "Tanggal"]).reset_index(drop=True)
         
-    df_total.to_csv(DATA_FILE, index=False)
-    print(f"File master disimpan ke {DATA_FILE}. Total baris: {len(df_total)}")
+        # Satukan kolom Harga (hasil scraping baru) dan Harga_Numerik (data historis lama)
+        if "Harga_Numerik" in df_total.columns:
+            df_total["Harga"] = df_total["Harga"].fillna(df_total["Harga_Numerik"])
+            
+        df_total.to_csv(DATA_FILE, index=False)
+        print(f"File master disimpan ke {DATA_FILE}. Total baris: {len(df_total)}")
     
     # 3. Proses ETL data bersih & Integrasi Cuaca + Berita + MBG
     print("Memulai pembersihan data & pengayaan fitur eksternal...")
@@ -714,6 +719,35 @@ def precalculate_forecasts(df_clean):
         df_val_out.to_csv(os.path.join(TARGET_DIR, "validation_detail.csv"), index=False)
         
     print("Pra-kalkulasi peramalan sukses disimpan!")
+    
+    # 5. Git Auto-Push untuk memposting CSV terbaru ke GitHub
+    print("Memulai sinkronisasi otomatis ke GitHub...")
+    import subprocess
+    try:
+        # Panggil git credential fill untuk mengambil token jika disimpan di helper
+        p = subprocess.Popen('git credential fill', shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        out_cred, _ = p.communicate(input="url=https://github.com\n\n")
+        token = None
+        for line in out_cred.split("\n"):
+            if "password=" in line:
+                token = line.split("=")[1].strip()
+                
+        if token:
+            # Gunakan token langsung untuk otentikasi push tanpa interaksi manual
+            remote_url = f"https://DarRahman:{token}@github.com/DarRahman/PasarCirebon.git"
+            subprocess.run(["git", "remote", "set-url", "origin", remote_url], cwd=TARGET_DIR)
+            subprocess.run(["git", "add", "master_historis_pangan_cirebon.csv", "forecast_14_hari.csv", "validation_metrics.csv", "validation_detail.csv"], cwd=TARGET_DIR)
+            subprocess.run(["git", "commit", "-m", f"Auto-update: Daily food price database ({datetime.date.today().strftime('%Y-%m-%d')})"], cwd=TARGET_DIR)
+            res_push = subprocess.run(["git", "push", "origin", "main"], cwd=TARGET_DIR, capture_output=True, text=True)
+            print("GitHub Sync Success:", res_push.stdout)
+        else:
+            # Jika token tidak ditemukan, coba push bawaan (bergantung ssh-agent / git config)
+            subprocess.run(["git", "add", "master_historis_pangan_cirebon.csv", "forecast_14_hari.csv", "validation_metrics.csv", "validation_detail.csv"], cwd=TARGET_DIR)
+            subprocess.run(["git", "commit", "-m", f"Auto-update: Daily food price database ({datetime.date.today().strftime('%Y-%m-%d')})"], cwd=TARGET_DIR)
+            res_push = subprocess.run(["git", "push", "origin", "main"], cwd=TARGET_DIR, capture_output=True, text=True)
+            print("GitHub Sync (Standard):", res_push.stderr)
+    except Exception as e:
+        print(f"Gagal melakukan push otomatis ke GitHub: {e}")
 
 
 if __name__ == "__main__":
