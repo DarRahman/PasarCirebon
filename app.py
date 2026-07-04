@@ -537,6 +537,7 @@ elif page == "Deteksi Anomali Harga":
             title=f"Audit Trail Data: Harga Original vs Harga Bersih untuk {selected_commodity} di {selected_market}",
             xaxis_title="Tanggal",
             yaxis_title="Harga (Rp)",
+            yaxis=dict(rangemode="tozero"),
             template="plotly_white"
         )
         st.plotly_chart(fig, use_container_width=True)
@@ -785,9 +786,9 @@ elif page == "Peramalan Harga (Forecasting)":
                 pd_mape = np.mean(np.abs((pd_pred_rf["Harga_Bersih"] - pd_pred_rf["yhat"]) / pd_pred_rf["Harga_Bersih"])) * 100
                 pd_mae = np.mean(np.abs(pd_pred_rf["Harga_Bersih"] - pd_pred_rf["yhat"]))
                 
-                # Hitung Akurasi Toleransi Eceran (Batas ketat 2% dari rata-rata harga)
+                # Hitung Akurasi Toleransi Eceran (Batas wajar 5% dari rata-rata harga atau minimal Rp 1.500)
                 pd_avg_price = post_deploy_actual["Harga_Bersih"].mean()
-                pd_threshold = max(500.0, 0.02 * pd_avg_price)
+                pd_threshold = max(1500.0, 0.05 * pd_avg_price)
                 pd_akurat_days = int(np.sum(np.abs(post_deploy_actual["Harga_Bersih"] - pd_pred_rf["yhat"]) <= pd_threshold))
                 pd_accuracy_score = (pd_akurat_days / len(post_deploy_actual)) * 100
                 

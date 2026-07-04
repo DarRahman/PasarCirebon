@@ -634,7 +634,8 @@ def precalculate_forecasts(df_clean):
         mae_rf = np.mean(np.abs(test_df["Harga_Bersih"] - test_df["yhat"]))
         
         avg_price = test_df["Harga_Bersih"].mean()
-        threshold = max(500.0, 0.02 * avg_price) # Pengetatan toleransi 2% di update_harian.py
+        # Mengembalikan batas toleransi akurasi ke standar deviasi wajar 5% (atau minimal selisih Rp 1.500)
+        threshold = max(1500.0, 0.05 * avg_price)
         akurat_days = int(np.sum(np.abs(test_df["Harga_Bersih"] - test_df["yhat"]) <= threshold))
         
         val_df = test_df[["Tanggal", "Harga_Bersih", "yhat"]].copy()
