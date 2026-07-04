@@ -659,14 +659,8 @@ elif page == "Peramalan Harga (Forecasting)":
         with st.expander("Detail Akurasi Validasi (Simulasi 14 Hari Terakhir)"):
             st.write("Model Random Forest diuji coba memprediksi data 14 hari terakhir untuk mengukur keandalan prediksi sebelum dilepas ke sistem.")
             col_acc1, col_acc2 = st.columns(2)
-            try:
-                toleransi_acc = (akurat_count / total_count) * 100
-            except:
-                toleransi_acc = max(0.0, 100.0 - best_mape)
-            val_avg_price = test_df["Harga_Bersih"].mean() if not test_df.empty else 10000.0
-            val_thresh_val = max(500.0, 0.02 * val_avg_price)  # Toleransi ketat 2% untuk refleksi pasar riil
-            col_acc1.metric("Skor Akurasi Prediksi", f"{toleransi_acc:.2f}%", help=f"Persentase hari dengan selisih harga < 5% dari harga aktual (Toleransi pasar: ±Rp {int(val_thresh_val):,}).")
-            col_acc2.metric("Rata-rata Selisih Harga", f"Rp {int(best_mae):,}", help="Rata-rata selisih harga prediksi model dibandingkan dengan harga lapangan asli dalam Rupiah (MAE).")
+            col_acc1.metric("Rata-rata Persentase Error (MAPE)", f"{best_mape:.2f}%", help="Rata-rata persentase penyimpangan prediksi terhadap harga lapangan asli (MAPE).")
+            col_acc2.metric("Rata-rata Selisih Harga (MAE)", f"Rp {int(best_mae):,}", help="Rata-rata selisih nominal harga prediksi model dibandingkan dengan harga lapangan asli dalam Rupiah (MAE).")
             if not pred_val.empty:
                 fig_eval = go.Figure()
                 fig_eval.add_trace(go.Scatter(x=test_df["Tanggal"], y=test_df["Harga_Bersih"], mode='lines+markers', name='Harga Aktual (Lapangan)', line=dict(color='#00BFFF', width=3)))
@@ -794,8 +788,8 @@ elif page == "Peramalan Harga (Forecasting)":
                 
                 st.write(f"Berikut hasil pelacakan performa model untuk **{n_days} hari** data riil sejak deployment:")
                 col_pd1, col_pd2 = st.columns(2)
-                col_pd1.metric("Skor Akurasi Riil", f"{pd_accuracy_score:.2f}%", help=f"Persentase hari dengan selisih harga < 5% dari harga aktual (Toleransi pasar: ±Rp {int(pd_threshold):,}).")
-                col_pd2.metric("Rata-rata Selisih Harga Riil", f"Rp {int(pd_mae):,}", help="Rata-rata selisih harga prediksi model dibandingkan dengan harga lapangan asli dalam Rupiah (MAE).")
+                col_pd1.metric("Rata-rata Persentase Error Riil (MAPE)", f"{pd_mape:.2f}%", help="Rata-rata persentase penyimpangan prediksi terhadap harga lapangan asli pasca-deployment (MAPE).")
+                col_pd2.metric("Rata-rata Selisih Harga Riil (MAE)", f"Rp {int(pd_mae):,}", help="Rata-rata selisih nominal harga prediksi model dibandingkan dengan harga lapangan asli dalam Rupiah pasca-deployment (MAE).")
                 
                 fig_pd = go.Figure()
                 fig_pd.add_trace(go.Scatter(x=post_deploy_actual["Tanggal"], y=post_deploy_actual["Harga_Bersih"], mode='lines+markers', name='Harga Aktual (Lapangan)', line=dict(color='#00BFFF', width=3)))
