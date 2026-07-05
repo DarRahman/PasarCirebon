@@ -229,7 +229,7 @@ def fetch_and_parse_pandas(pasar_id, year, month):
     pasar_name = pasar_map.get(pasar_id, f"Pasar {pasar_id}")
     
     try:
-        r = requests.get(url, headers=headers, timeout=20)
+        r = requests.get(url, headers=headers, timeout=4)
         if r.status_code != 200 or not r.text.strip():
             return []
             
