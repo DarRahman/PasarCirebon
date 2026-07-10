@@ -16,7 +16,29 @@ Sistem dibangun menggunakan ekosistem Python modern dengan pustaka-pustaka stand
 
 ## Komponen & Arsitektur Sistem
 
-Sistem ini memisahkan proses pengolahan data (ETL/Modeling) dengan antarmuka pengguna untuk menjaga efisiensi dan stabilitas:
+Sistem memisahkan proses pengolahan data (ETL/Modeling) dengan antarmuka pengguna untuk menjaga efisiensi dan stabilitas:
+
+```
+[Sumber Data Web]
+       │ (Kepokmas Cirebon, Open-Meteo, Google News)
+       ▼
+ ┌───────────┐      ┌─────────────┐      ┌───────────┐
+ │   ETL &   │ ───> │  Pembersih  │ ───> │  XGBoost  │
+ │ Scraping  │      │ Anomali/IQR │      │ Retraining│
+ └───────────┘      └─────────────┘      └───────────┘
+                                               │
+                                               ▼
+                                      ┌────────────────┐
+                                      │ Precalculated  │
+                                      │   Files/CSV    │
+                                      └────────────────┘
+                                               │
+                                               ▼
+                                      ┌────────────────┐
+                                      │   Streamlit    │
+                                      │ Dashboard App  │
+                                      └────────────────┘
+```
 
 1. **Pipeline ETL & Automated Scraping (`update_harian.py`)**
    * Berjalan secara terjadwal otomatis (Cron Job / Windows Task Scheduler) setiap hari pada pukul **13:00 WIB**.
@@ -38,10 +60,18 @@ Data mentah laporan petugas pasar sering kali memiliki anomali akibat kesalahan 
 
 ---
 
-## Model Peramalan: XGBoost 14 Hari (Multi-Faktor)
+## Model Peramalan: XGBoost 14 Hari (Direct Multi-Output)
 
-Harga pangan harian pasar tradisional sangat fluktuatif dalam jangka pendek. Sistem membatasi horizon peramalan secara realistis hingga **14 hari ke depan** menggunakan model **XGBoost Regressor** dengan mengintegrasikan faktor penentu harga:
+Harga pangan harian pasar tradisional sangat fluktuatif dalam jangka pendek. Proyek ini mengimplementasikan pendekatan **Direct Multi-Output Forecasting** menggunakan **XGBoost Regressor**:
 
+### Mengapa Direct Forecasting?
+Alih-alih memprediksi secara rekursif (menggunakan prediksi hari esok untuk memprediksi lusa yang rentan terhadap akumulasi *error*), sistem ini melatih **14 model XGBoost yang berbeda secara independen** untuk setiap target hari prediksi ($t+1, t+2, \dots, t+14$):
+* Model 1 memprediksi langsung $Y_{t+1}$
+* Model 2 memprediksi langsung $Y_{t+2}$
+* ...
+* Model 14 memprediksi langsung $Y_{t+14}$
+
+Setiap model menggunakan kombinasi fitur penentu harga berikut:
 * **Siklus Cuaca & Hama (Open-Meteo API)**: Parameter `Curah_Hujan` dan `Suhu_Rata` harian untuk mengukur risiko gagal panen.
 * **Sentimen Publik (Google News RSS)**: Pengukur sentimen berita pangan lokal (isu kelangkaan pasokan atau ketersediaan stok).
 * **Kebijakan & Demand (Makan Bergizi Gratis)**: Status aktif/libur sekolah di Kabupaten Cirebon yang memengaruhi permintaan bahan pangan.
@@ -64,11 +94,11 @@ Sistem mengukur performa model dengan metrik statistik standar industri yang obj
 ### 1. Dependensi
 Pastikan Python 3.9+ telah terpasang. Instalasi pustaka pendukung dapat dilakukan cepat menggunakan:
 ```bash
-pip install pandas numpy streamlit plotly xgboost torch requests beautifulsoup4
+pip install pandas numpy streamlit plotly xgboost torch requests beautifulsoup4 prophet
 ```
 
 ### 2. Langkah Pertama (Inisialisasi Data & Training)
-Sebelum menjalankan dashboard untuk pertama kali, Anda **harus** menjalankan skrip ETL harian untuk membersihkan data mentah asli (`master_historis_pangan_cirebon.csv`) dan melatih model peramalan *Direct Forecasting* secara lokal:
+Sebelum menjalankan dashboard untuk pertama kali, Anda **harus** menjalankan skrip ETL harian untuk membersihkan data mentah asli (`master_historis_pangan_cirebon.csv`) dan melatih model peramalan secara lokal:
 ```bash
 python update_harian.py
 ```
@@ -84,8 +114,15 @@ Aplikasi dapat dibuka melalui peramban web pada alamat default: `http://localhos
 ### 4. Struktur File Repositori
 * `app.py`: Antarmuka visual Streamlit dan chatbot tanya jawab AI.
 * `update_harian.py`: Skrip penarik data (ETL), pembersih anomali, dan pelatihan model terpisah (Direct Forecasting).
-* `master_historis_pangan_cirebon.csv`: Database master harga pangan historis mentah (24 MB).
+* `master_historis_pangan_cirebon.csv`: Database master harga pangan historis mentah.
 * `README.md`: Dokumentasi petunjuk penggunaan.
-* `master_historis_pangan_cirebon_clean.csv` *(Generated setelah run)*: Database bersih hasil pembersihan data dan penggabungan faktor eksternal.
-* `forecast_14_hari.csv` *(Generated setelah run)*: Hasil peramalan 14 hari ke depan untuk semua pasar-komoditas.
-* `validation_metrics.csv` & `validation_detail.csv` *(Generated setelah run)*: Hasil kalkulasi metrik evaluasi model.
+* `master_historis_pangan_cirebon_clean.csv` *(Generated)*: Database bersih hasil pembersihan data dan penggabungan faktor eksternal.
+* `forecast_14_hari.csv` *(Generated)*: Hasil peramalan 14 hari ke depan untuk semua pasar-komoditas.
+* `validation_metrics.csv` & `validation_detail.csv` *(Generated)*: Hasil kalkulasi metrik evaluasi model.
+
+---
+
+## Kontributor
+
+* **DarRahman** (Badar Rahman) - Lead Developer
+* **Claude (AI)** - AI Assistant (Refactoring, Algoritma Direct Forecasting, dan Pembersihan Data)
