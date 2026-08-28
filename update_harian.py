@@ -440,16 +440,22 @@ def main():
     df_clean["MBG_Aktif"] = df_clean["Tanggal"].apply(get_mbg_status)
     df_clean["Sentimen_Berita"] = news_sent
     
-    # Fitur Lag harga (1, 2, 7 hari lalu)
+    # Fitur Lag harga (1, 2, 7 hari lalu) + Rolling Statistics
     df_clean = df_clean.sort_values(["Pasar", "Komoditas", "Tanggal"])
     df_clean["Lag_1"] = df_clean.groupby(["Pasar", "Komoditas"])["Harga_Bersih"].shift(1)
     df_clean["Lag_2"] = df_clean.groupby(["Pasar", "Komoditas"])["Harga_Bersih"].shift(2)
     df_clean["Lag_7"] = df_clean.groupby(["Pasar", "Komoditas"])["Harga_Bersih"].shift(7)
     
+    # Rolling Mean & Rolling Std (7 hari) untuk menangkap tren & volatilitas
+    df_clean["Rolling_Mean_7"] = df_clean.groupby(["Pasar", "Komoditas"])["Harga_Bersih"].transform(lambda s: s.shift(1).rolling(7, min_periods=1).mean())
+    df_clean["Rolling_Std_7"] = df_clean.groupby(["Pasar", "Komoditas"])["Harga_Bersih"].transform(lambda s: s.shift(1).rolling(7, min_periods=1).std()).fillna(0.0)
+    
     # Isi lag kosong dengan harga bersih hari ini (agar tidak ada NaN)
     df_clean["Lag_1"] = df_clean["Lag_1"].fillna(df_clean["Harga_Bersih"])
     df_clean["Lag_2"] = df_clean["Lag_2"].fillna(df_clean["Harga_Bersih"])
     df_clean["Lag_7"] = df_clean["Lag_7"].fillna(df_clean["Harga_Bersih"])
+    df_clean["Rolling_Mean_7"] = df_clean["Rolling_Mean_7"].fillna(df_clean["Harga_Bersih"])
+    df_clean["Rolling_Std_7"] = df_clean["Rolling_Std_7"].fillna(0.0)
     
     # Hitung Hari_Dalam_Tahun dan Jarak_Ke_Hari_Raya
     HOLIDAYS = sorted(pd.to_datetime([
@@ -473,7 +479,30 @@ def main():
     
     df_clean.to_csv(CLEAN_FILE, index=False)
     print(f"Pembersihan sukses. File bersih disimpan ke {CLEAN_FILE}. Total baris: {len(df_clean)}")
-    precalculate_forecasts(df_clean)
+    
+    # 5. Git Auto-Push untuk memposting CSV terbaru ke GitHub
+    print("Memulai sinkronisasi otomatis ke GitHub...")
+    import subprocess
+    try:
+        token = None
+        # Baca token dari file lokal .git_token (aman & andal untuk background cron)
+        token_file = os.path.join(TARGET_DIR, ".git_token")
+        if os.path.exists(token_file):
+            with open(token_file, "r", encoding="utf-8") as tf:
+                token = tf.read().strip()
+                
+        if token:
+            # Gunakan token langsung untuk otentikasi push tanpa interaksi manual
+            remote_url = f"https://DarRahman:{token}@github.com/DarRahman/PasarCirebon.git"
+            subprocess.run(["git", "remote", "set-url", "origin", remote_url], cwd=TARGET_DIR)
+            subprocess.run(["git", "add", "master_historis_pangan_cirebon.csv"], cwd=TARGET_DIR)
+            subprocess.run(["git", "commit", "-m", f"Auto-update: Daily food price database ({datetime.date.today().strftime('%Y-%m-%d')})"], cwd=TARGET_DIR)
+            res_push = subprocess.run(["git", "push", "origin", "main"], cwd=TARGET_DIR, capture_output=True, text=True)
+            print("GitHub Sync Success:", res_push.stdout)
+        else:
+            print("GitHub Sync skipped: .git_token file not found.")
+    except Exception as e:
+        print(f"Gagal melakukan push otomatis ke GitHub: {e}")
 
 
 def precalculate_forecasts(df_clean):
@@ -538,7 +567,7 @@ def precalculate_forecasts(df_clean):
     next_holidays_fut = pd.to_datetime([HOLIDAYS[i] for i in idx_fut])
     future_features["Jarak_Ke_Hari_Raya"] = (next_holidays_fut - future_features["Tanggal"]).dt.days
     
-    features = ["Curah_Hujan", "Suhu_Rata", "MBG_Aktif", "Sentimen_Berita", "Lag_1", "Lag_2", "Lag_7", "Hari_Dalam_Tahun", "Jarak_Ke_Hari_Raya"]
+    features = ["Curah_Hujan", "Suhu_Rata", "MBG_Aktif", "Sentimen_Berita", "Lag_1", "Lag_2", "Lag_7", "Rolling_Mean_7", "Rolling_Std_7", "Hari_Dalam_Tahun", "Jarak_Ke_Hari_Raya"]
     
     def process_group(name, group):
         pasar, komoditas = name
@@ -600,10 +629,17 @@ def precalculate_forecasts(df_clean):
         
         # Saring lag asli pada train_df
         # Lag temporal didasarkan pada data aktual terakhir di train_df sebelum test_df mulai
-        # Lag_1 = hari terakhir train_df, Lag_2 = H-1 train_df, Lag_7 = H-6 train_df
         lag1_val = train_df["Harga_Bersih"].iloc[-1]
         lag2_val = train_df["Harga_Bersih"].iloc[-2] if len(train_df) > 1 else lag1_val
         lag7_val = train_df["Harga_Bersih"].iloc[-7] if len(train_df) > 6 else lag1_val
+        roll_mean_val = train_df["Harga_Bersih"].iloc[-7:].mean() if len(train_df) >= 7 else lag1_val
+        roll_std_val = train_df["Harga_Bersih"].iloc[-7:].std() if len(train_df) >= 7 else 0.0
+        if pd.isna(roll_std_val):
+            roll_std_val = 0.0
+
+        is_volatile = any(k in komoditas.lower() for k in ["cabe", "cabai", "bawang", "ayam", "daging"])
+        depth = 4 if is_volatile else 5
+        reg_l2 = 1.0 if is_volatile else 0.0
         
         # Fitur dasar untuk test
         for k in range(14):
@@ -613,7 +649,7 @@ def precalculate_forecasts(df_clean):
             train_df_h = train_df_clean.dropna(subset=[f"Target_H_{k+1}"])
             
             if len(train_df_h) > 30:
-                xgb_h = xgb.XGBRegressor(n_estimators=30, max_depth=5, learning_rate=0.1, random_state=42, n_jobs=-1)
+                xgb_h = xgb.XGBRegressor(n_estimators=35, max_depth=depth, learning_rate=0.08, reg_lambda=reg_l2, random_state=42, n_jobs=-1)
                 xgb_h.fit(train_df_h[features].fillna(0), train_df_h[f"Target_H_{k+1}"])
                 
                 # Prediksi test_df pada hari ke-k menggunakan lag statis terakhir dari train_df
@@ -626,6 +662,8 @@ def precalculate_forecasts(df_clean):
                     "Lag_1": lag1_val,
                     "Lag_2": lag2_val,
                     "Lag_7": lag7_val,
+                    "Rolling_Mean_7": roll_mean_val,
+                    "Rolling_Std_7": roll_std_val,
                     "Hari_Dalam_Tahun": row_test["Hari_Dalam_Tahun"],
                     "Jarak_Ke_Hari_Raya": row_test["Jarak_Ke_Hari_Raya"]
                 }])
@@ -652,6 +690,10 @@ def precalculate_forecasts(df_clean):
         lag1_final = group["Harga_Bersih"].iloc[-1]
         lag2_final = group["Harga_Bersih"].iloc[-2] if len(group) > 1 else lag1_final
         lag7_final = group["Harga_Bersih"].iloc[-7] if len(group) > 6 else lag1_final
+        roll_mean_final = group["Harga_Bersih"].iloc[-7:].mean() if len(group) >= 7 else lag1_final
+        roll_std_final = group["Harga_Bersih"].iloc[-7:].std() if len(group) >= 7 else 0.0
+        if pd.isna(roll_std_final):
+            roll_std_final = 0.0
         
         preds_future = [0.0] * 14
         for k in range(14):
@@ -659,7 +701,7 @@ def precalculate_forecasts(df_clean):
             eval_df_h = eval_df_clean.dropna(subset=[f"Target_H_{k+1}"])
             
             if len(eval_df_h) > 30:
-                xgb_h_final = xgb.XGBRegressor(n_estimators=30, max_depth=5, learning_rate=0.1, random_state=42, n_jobs=-1)
+                xgb_h_final = xgb.XGBRegressor(n_estimators=35, max_depth=depth, learning_rate=0.08, reg_lambda=reg_l2, random_state=42, n_jobs=-1)
                 xgb_h_final.fit(eval_df_h[features].fillna(0), eval_df_h[f"Target_H_{k+1}"])
                 
                 row_feat_fut = pd.DataFrame([{
@@ -670,6 +712,8 @@ def precalculate_forecasts(df_clean):
                     "Lag_1": lag1_final,
                     "Lag_2": lag2_final,
                     "Lag_7": lag7_final,
+                    "Rolling_Mean_7": roll_mean_final,
+                    "Rolling_Std_7": roll_std_final,
                     "Hari_Dalam_Tahun": future_features["Hari_Dalam_Tahun"].iloc[k],
                     "Jarak_Ke_Hari_Raya": future_features["Jarak_Ke_Hari_Raya"].iloc[k]
                 }])

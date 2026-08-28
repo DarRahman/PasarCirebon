@@ -23,3 +23,31 @@ env/
 # OS temporary files
 .DS_Store
 Thumbs.db
+
+# Secure tokens
+.git_token
+
+# Unrelated local research / personal files
+*.docx
+*.pdf
+*.tex
+*.canvas
+*.base
+*.png
+all_pdf_text.txt
+extracted_slides_text.txt
+section_*_footer.xml
+generate_laprak.*
+fix_generate_laprak.*
+filter_komoditas.*
+test_replacements.*
+scrape_historis_pandas.*
+palworld_*
+palworld_research/
+palworld_xgp_import_temp/
+research_palworld_*
+langflow_env/
+.codegraph/
+.obsidian/
+2026-*.md
+Untitled*
