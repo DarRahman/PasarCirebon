@@ -479,30 +479,10 @@ def main():
     
     df_clean.to_csv(CLEAN_FILE, index=False)
     print(f"Pembersihan sukses. File bersih disimpan ke {CLEAN_FILE}. Total baris: {len(df_clean)}")
-    
-    # 5. Git Auto-Push untuk memposting CSV terbaru ke GitHub
-    print("Memulai sinkronisasi otomatis ke GitHub...")
-    import subprocess
-    try:
-        token = None
-        # Baca token dari file lokal .git_token (aman & andal untuk background cron)
-        token_file = os.path.join(TARGET_DIR, ".git_token")
-        if os.path.exists(token_file):
-            with open(token_file, "r", encoding="utf-8") as tf:
-                token = tf.read().strip()
-                
-        if token:
-            # Gunakan token langsung untuk otentikasi push tanpa interaksi manual
-            remote_url = f"https://DarRahman:{token}@github.com/DarRahman/PasarCirebon.git"
-            subprocess.run(["git", "remote", "set-url", "origin", remote_url], cwd=TARGET_DIR)
-            subprocess.run(["git", "add", "master_historis_pangan_cirebon.csv"], cwd=TARGET_DIR)
-            subprocess.run(["git", "commit", "-m", f"Auto-update: Daily food price database ({datetime.date.today().strftime('%Y-%m-%d')})"], cwd=TARGET_DIR)
-            res_push = subprocess.run(["git", "push", "origin", "main"], cwd=TARGET_DIR, capture_output=True, text=True)
-            print("GitHub Sync Success:", res_push.stdout)
-        else:
-            print("GitHub Sync skipped: .git_token file not found.")
-    except Exception as e:
-        print(f"Gagal melakukan push otomatis ke GitHub: {e}")
+
+    # Jalankan training XGBoost & peramalan
+    precalculate_forecasts(df_clean)
+
 
 
 def precalculate_forecasts(df_clean):
@@ -763,35 +743,6 @@ def precalculate_forecasts(df_clean):
         df_val_out.to_csv(os.path.join(TARGET_DIR, "validation_detail.csv"), index=False)
         
     print("Pra-kalkulasi peramalan sukses disimpan!")
-    
-    # 5. Git Auto-Push untuk memposting CSV terbaru ke GitHub
-    print("Memulai sinkronisasi otomatis ke GitHub...")
-    import subprocess
-    try:
-        # Panggil git credential fill untuk mengambil token jika disimpan di helper
-        p = subprocess.Popen('git credential fill', shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-        out_cred, _ = p.communicate(input="url=https://github.com\n\n")
-        token = None
-        for line in out_cred.split("\n"):
-            if "password=" in line:
-                token = line.split("=")[1].strip()
-                
-        if token:
-            # Gunakan token langsung untuk otentikasi push tanpa interaksi manual
-            remote_url = f"https://DarRahman:{token}@github.com/DarRahman/PasarCirebon.git"
-            subprocess.run(["git", "remote", "set-url", "origin", remote_url], cwd=TARGET_DIR)
-            subprocess.run(["git", "add", "master_historis_pangan_cirebon.csv", "forecast_14_hari.csv", "validation_metrics.csv", "validation_detail.csv"], cwd=TARGET_DIR)
-            subprocess.run(["git", "commit", "-m", f"Auto-update: Daily food price database ({datetime.date.today().strftime('%Y-%m-%d')})"], cwd=TARGET_DIR)
-            res_push = subprocess.run(["git", "push", "origin", "main"], cwd=TARGET_DIR, capture_output=True, text=True)
-            print("GitHub Sync Success:", res_push.stdout)
-        else:
-            # Jika token tidak ditemukan, coba push bawaan (bergantung ssh-agent / git config)
-            subprocess.run(["git", "add", "master_historis_pangan_cirebon.csv", "forecast_14_hari.csv", "validation_metrics.csv", "validation_detail.csv"], cwd=TARGET_DIR)
-            subprocess.run(["git", "commit", "-m", f"Auto-update: Daily food price database ({datetime.date.today().strftime('%Y-%m-%d')})"], cwd=TARGET_DIR)
-            res_push = subprocess.run(["git", "push", "origin", "main"], cwd=TARGET_DIR, capture_output=True, text=True)
-            print("GitHub Sync (Standard):", res_push.stderr)
-    except Exception as e:
-        print(f"Gagal melakukan push otomatis ke GitHub: {e}")
 
 
 if __name__ == "__main__":
