@@ -1,0 +1,45 @@
+name: Daily Food Price ETL & Forecast
+
+on:
+  schedule:
+    # Runs daily at 13:00 WIB (06:00 UTC)
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run ETL and XGBoost forecast
+        run: |
+          python update_harian.py
+
+      - name: Commit and push updated data
+        run: |
+          git config --global user.name "DarRahman"
+          git config --global user.email "badar@users.noreply.github.com"
+          git add master_historis_pangan_cirebon.csv forecast_14_hari.csv validation_metrics.csv validation_detail.csv || true
+          if git diff --staged --quiet; then
+            echo "No data changes to commit."
+          else
+            git commit -m "Auto-update: Daily food price database ($(date +'%Y-%m-%d'))"
+            git push origin main
+          fi

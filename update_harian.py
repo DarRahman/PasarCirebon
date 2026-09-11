@@ -9,7 +9,7 @@ import re
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import xgboost as xgb
 
-TARGET_DIR = r"C:\Users\Pongo\Documents\Codingan\Hermes\Data Science\PasarCIrebon"
+TARGET_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_FILE = os.path.join(TARGET_DIR, "master_historis_pangan_cirebon.csv")
 CLEAN_FILE = os.path.join(TARGET_DIR, "master_historis_pangan_cirebon_clean.csv")
 
