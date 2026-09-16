@@ -35,7 +35,7 @@ jobs:
       - name: Commit and push updated data
         run: |
           git config --global user.name "DarRahman"
-          git config --global user.email "badar@users.noreply.github.com"
+          git config --global user.email "badarrahman1905@gmail.com"
           git add master_historis_pangan_cirebon.csv forecast_14_hari.csv validation_metrics.csv validation_detail.csv || true
           if git diff --staged --quiet; then
             echo "No data changes to commit."
