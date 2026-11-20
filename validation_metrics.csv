@@ -1,39 +1,39 @@
 Pasar,Komoditas,MAPE_Validasi,MAE_Validasi,Akurat_Count,Total_Count
 Pasar Babakan,Beras Bulog Premium,0.0,0.0,14,14
-Pasar Babakan,Bawang putih Katingan,0.0,0.0,14,14
 Pasar Babakan,Beras Bulog,0.0,0.0,14,14
-Pasar Babakan,Bawang Putih,1.1904761904761907,357.14285714285717,14,14
+Pasar Babakan,Bawang putih Katingan,0.0,0.0,14,14
+Pasar Babakan,Bawang Merah,8.97640306122449,2857.1428571428573,5,14
+Pasar Babakan,Bawang Putih,1.0714285714285714,321.42857142857144,14,14
 Pasar Babakan,Bawang Bombay,0.23809523809523808,71.42857142857143,14,14
-Pasar Babakan,Bawang Merah,8.322704081632653,2642.8571428571427,6,14
-Pasar Babakan,Beras Premium I,6.060606060606061,1000.0,14,14
 Pasar Babakan,Beras Medium,5.0,750.0,14,14
 Pasar Babakan,Beras Premium II,0.0,0.0,14,14
+Pasar Babakan,Beras Premium I,5.411255411255411,892.8571428571429,14,14
 Pasar Babakan,Beras Premium Super,0.0,0.0,14,14
-Pasar Babakan,Buncis,7.873376623376624,1714.2857142857142,7,14
-Pasar Babakan,Cabe Hijau,13.067757021561372,3642.8571428571427,5,14
-Pasar Babakan,Cabe Merah Biasa,10.391156462585036,2857.1428571428573,6,14
-Pasar Babakan,Cabe Merah Keriting,8.946886446886447,5500.0,3,14
-Pasar Babakan,Cabe Rawit Hijau,3.2857142857142856,1642.857142857143,10,14
-Pasar Babakan,Cabe Rawit Merah,16.62769274376417,14392.857142857143,4,14
-Pasar Babakan,Cumi Asin,6.205357142857142,4964.285714285715,6,14
-Pasar Babakan,Daging Ayam Broiler,2.3636013109697314,928.5714285714286,11,14
+Pasar Babakan,Buncis,7.743506493506493,1678.5714285714287,8,14
+Pasar Babakan,Cabe Hijau,14.68039936110588,4142.857142857143,4,14
+Pasar Babakan,Cabe Merah Biasa,9.374149659863944,2785.714285714286,6,14
+Pasar Babakan,Cabe Merah Keriting,7.884615384615386,4821.428571428572,2,14
+Pasar Babakan,Cabe Rawit Hijau,3.357142857142857,1678.5714285714287,10,14
+Pasar Babakan,Cabe Rawit Merah,17.854308390022673,15607.142857142857,4,14
+Pasar Babakan,Cumi Asin,6.205357142857143,4964.285714285715,4,14
+Pasar Babakan,Daging Ayam Broiler,2.4622855214960473,964.2857142857143,11,14
 Pasar Babakan,Daging Ayam Kampung,1.388888888888889,500.0,14,14
 Pasar Babakan,Daging Kambing,0.0,0.0,14,14
-Pasar Babakan,Daging Sapi Murni,2.1205357142857144,3392.8571428571427,14,14
+Pasar Babakan,Daging Sapi Murni,1.5178571428571428,2428.5714285714284,14,14
 Pasar Babakan,Garam Beryodium,0.0,0.0,14,14
 Pasar Babakan,Gula Batu,0.0,0.0,14,14
 Pasar Babakan,Gula Impor,0.0,0.0,14,14
 Pasar Babakan,Gula Merah,2.083333333333333,500.0,14,14
 Pasar Babakan,Ikan Asin Kembung,0.0,0.0,14,14
-Pasar Babakan,Gula Pasir lokal,2.6033834586466154,500.0,14,14
-Pasar Babakan,Ikan Tongkol,0.0,0.0,14,14
+Pasar Babakan,Gula Pasir lokal,2.6127819548872173,500.0,14,14
 Pasar Babakan,Ikan Asin Peda,0.0,0.0,14,14
+Pasar Babakan,Ikan Tongkol,0.0,0.0,14,14
 Pasar Babakan,Ikan Asin Teri,5.000000000000001,500.0,14,14
-Pasar Babakan,Ikan Asin Tiga Wajan,0.8035714285714285,321.42857142857144,14,14
 Pasar Babakan,Jagung Pipilan,0.0,0.0,14,14
+Pasar Babakan,Ikan Asin Tiga Wajan,1.160714285714286,464.2857142857143,14,14
 Pasar Babakan,Jagung Pipilan Kering,0.0,0.0,14,14
-Pasar Babakan,Ikan Kembung,10.047619047619047,4964.285714285715,6,14
-Pasar Babakan,Ikan Bandeng,4.821428571428572,1928.5714285714287,11,14
+Pasar Babakan,Ikan Kembung,10.642857142857142,5285.714285714285,5,14
+Pasar Babakan,Ikan Bandeng,5.0,2000.0,10,14
 Pasar Babakan,Indomie Kari Ayam,0.0,0.0,14,14
 Pasar Babakan,Kacang Panjang,0.0,0.0,14,14
 Pasar Babakan,Ketela Pohon/Singkong,0.0,0.0,14,14
@@ -41,147 +41,147 @@ Pasar Babakan,Kacang Hijau,1.9302721088435373,571.4285714285714,14,14
 Pasar Babakan,Kacang Kedelai Impor,0.0,0.0,14,14
 Pasar Babakan,Kacang Kedelai Lokal,0.0,0.0,14,14
 Pasar Babakan,Margarine Simas,0.0,0.0,14,14
-Pasar Babakan,Kacang Tanah/Suuk,6.349206349206349,2857.1428571428573,4,14
-Pasar Babakan,Kacang Tanah kupas,3.187979311574817,1428.5714285714287,13,14
-Pasar Babakan,Kentang,3.363095238095238,535.7142857142857,14,14
-Pasar Babakan,Kol,13.293650793650794,1321.4285714285713,6,14
+Pasar Babakan,Kacang Tanah kupas,3.264669163545568,1464.2857142857142,12,14
+Pasar Babakan,Kacang Tanah/Suuk,6.428571428571428,2892.8571428571427,3,14
+Pasar Babakan,Kentang,3.571428571428571,571.4285714285714,14,14
+Pasar Babakan,Kol,14.72222222222222,1464.2857142857142,5,14
 Pasar Babakan,Margarine Blue Band,0.0,0.0,14,14
 Pasar Babakan,Mie Instan Sedaap Soto,5.714285714285714,2000.0,0,14
 Pasar Babakan,Minyak Goreng Bimoli,2.2727272727272725,500.0,14,14
 Pasar Babakan,Minyak Goreng Kemasan Sederhana,0.0,0.0,14,14
 Pasar Babakan,Minyak Goreng Curah,2.3809523809523814,500.0,14,14
-Pasar Babakan,Minyak Goreng Tropical,1.948051948051948,428.57142857142856,14,14
-Pasar Babakan,Sawi Hijau,10.416666666666666,1250.0,10,14
+Pasar Babakan,Minyak Goreng Tropical,1.7857142857142856,392.85714285714283,14,14
+Pasar Babakan,Sawi Hijau,10.119047619047619,1214.2857142857142,11,14
 Pasar Babakan,Susu Bubuk Putih Indomilk,0.0,0.0,14,14
-Pasar Babakan,Sawi Petsay,5.654761904761905,678.5714285714286,14,14
+Pasar Babakan,Sawi Petsay,5.9523809523809526,714.2857142857143,14,14
 Pasar Babakan,Segitiga Biru,0.0,0.0,14,14
 Pasar Babakan,Singkong,0.0,0.0,14,14
-Pasar Babakan,Telur Ayam Broiler,0.7142857142857143,178.57142857142858,14,14
 Pasar Babakan,Tepung Terigu Cakra Kembar,0.0,0.0,14,14
-Pasar Babakan,Susu Kental Manis Indomilk,0.0,0.0,14,14
-Pasar Babakan,Susu Kental Manis Bendera Cokelat,0.0,0.0,14,14
+Pasar Babakan,Telur Ayam Broiler,0.7142857142857143,178.57142857142858,14,14
 Pasar Babakan,Susu Kental Manis Bendera Putih,0.0,0.0,14,14
+Pasar Babakan,Susu Kental Manis Bendera Cokelat,0.0,0.0,14,14
+Pasar Babakan,Susu Kental Manis Indomilk,0.0,0.0,14,14
 Pasar Babakan,Telur Ayam Kampung,0.0,0.0,14,14
 Pasar Babakan,Telur Bebek Asin,0.0,0.0,14,14
+Pasar Babakan,Telur Bebek Mentah,0.0,0.0,14,14
 Pasar Babakan,Teri Medan Basah,0.0,0.0,14,14
 Pasar Babakan,Tepung Terigu Segitiga Biru,0.0,0.0,14,14
-Pasar Babakan,Telur Bebek Mentah,0.0,0.0,14,14
 Pasar Babakan,Tepung Terigu Kunci Biru,0.0,0.0,14,14
-Pasar Babakan,Tepung Terigu Segi Tiga Biru,0.0,0.0,14,14
-Pasar Babakan,Teri Medan Kering,9.151785714285719,7321.428571428572,10,14
+Pasar Babakan,Tepung Terigu Segi Tiga Biru,0.2976190476190476,35.714285714285715,14,14
+Pasar Babakan,Teri Medan Kering,6.830357142857142,5464.285714285715,12,14
 Pasar Babakan,Tomat Buah,3.7337662337662336,821.4285714285714,14,14
-Pasar Babakan,Udang,11.553849570131083,9857.142857142857,2,14
+Pasar Babakan,Tomat Sayur,13.095238095238093,1821.4285714285713,5,14
 Pasar Babakan,Ubi Jalar,0.0,0.0,14,14
 Pasar Ciledug,Beras Bulog Premium,0.0,0.0,14,14
-Pasar Babakan,Tomat Sayur,11.352040816326529,1571.4285714285713,6,14
+Pasar Babakan,Udang,9.207583791092192,7750.0,5,14
 Pasar Babakan,Wortel,0.9523809523809523,142.85714285714286,14,14
-Pasar Ciledug,Bawang Bombay,2.9591836734693877,1035.7142857142858,13,14
-Pasar Ciledug,Bawang Merah,8.458541346646186,2785.714285714286,2,14
-Pasar Ciledug,Bawang Putih,3.013392857142857,964.2857142857143,12,14
-Pasar Ciledug,Bawang putih Katingan,3.124999999999999,1250.0,14,14
-Pasar Ciledug,Besi Beton 10 mm,0.0,0.0,14,14
+Pasar Ciledug,Bawang Bombay,2.7551020408163267,964.2857142857143,14,14
+Pasar Ciledug,Bawang Merah,10.083045314900154,3357.1428571428573,1,14
+Pasar Ciledug,Bawang Putih,2.6785714285714284,857.1428571428571,14,14
+Pasar Ciledug,Bawang putih Katingan,3.035714285714285,1214.2857142857142,14,14
 Pasar Ciledug,Beras Bulog,0.0,0.0,14,14
+Pasar Ciledug,Besi Beton 10 mm,0.0,0.0,14,14
 Pasar Ciledug,Beras Medium,0.0,0.0,14,14
-Pasar Ciledug,Beras Premium I,3.0952380952380953,464.2857142857143,14,14
+Pasar Ciledug,Beras Premium I,2.142857142857143,321.42857142857144,14,14
 Pasar Ciledug,Beras Premium II,0.0,0.0,14,14
 Pasar Ciledug,Beras Premium Super,7.7934763649049374,1785.7142857142858,10,14
-Pasar Ciledug,Buncis,4.345238095238095,857.1428571428571,12,14
-Pasar Ciledug,Cabe Hijau,12.38425925925926,3714.285714285714,3,14
-Pasar Ciledug,Cabe Merah Biasa,6.4670799912004595,2178.5714285714284,6,14
-Pasar Ciledug,Cabe Merah Keriting,12.864254792826221,7428.571428571428,4,14
+Pasar Ciledug,Cabe Hijau,13.954199735449734,4214.285714285715,2,14
+Pasar Ciledug,Buncis,4.861111111111111,964.2857142857143,12,14
+Pasar Ciledug,Cabe Merah Biasa,7.883287643415575,2678.5714285714284,5,14
+Pasar Ciledug,Cabe Merah Keriting,15.44387755102041,8928.57142857143,3,14
 Pasar Ciledug,Cabe Rawit Hijau,4.571428571428571,2285.714285714286,10,14
-Pasar Ciledug,Cabe Rawit Merah,8.796512153248397,7607.142857142857,6,14
+Pasar Ciledug,Cabe Rawit Merah,9.896352089222786,8642.857142857143,6,14
 Pasar Ciledug,Cakra Kembar,0.0,0.0,14,14
-Pasar Ciledug,Cumi Asin,0.7589285714285717,607.1428571428571,14,14
-Pasar Ciledug,Daging Ayam Kampung,1.7857142857142854,500.0,14,14
-Pasar Ciledug,Daging Ayam Broiler,2.300101214574899,892.8571428571429,11,14
+Pasar Ciledug,Daging Ayam Broiler,2.107432041642568,821.4285714285714,13,14
+Pasar Ciledug,Cumi Asin,0.6696428571428573,535.7142857142857,14,14
 Pasar Ciledug,Garam Beryodium Bata,0.0,0.0,14,14
+Pasar Ciledug,Daging Ayam Kampung,1.7857142857142854,500.0,14,14
+Pasar Ciledug,Daging Sapi Kw 2,0.5844155844155845,642.8571428571429,14,14
 Pasar Ciledug,Daging Kambing,0.8823529411764705,1500.0,14,14
-Pasar Ciledug,Daging Sapi Kw 2,0.6493506493506495,714.2857142857143,14,14
-Pasar Ciledug,Daging Sapi Murni,3.75,6000.0,10,14
+Pasar Ciledug,Daging Sapi Murni,3.4821428571428568,5571.428571428572,14,14
 Pasar Ciledug,Garam Beryodium,0.0,0.0,14,14
 Pasar Ciledug,Ikan Asin Peda,0.0,0.0,14,14
 Pasar Ciledug,Gas Elpiji,3.9999999999999996,500.0,14,14
-Pasar Ciledug,Gula Impor,0.0,0.0,14,14
 Pasar Ciledug,Gula Batu,0.0,0.0,14,14
-Pasar Ciledug,Gula Merah,0.0,0.0,14,14
+Pasar Ciledug,Gula Impor,0.0,0.0,14,14
 Pasar Ciledug,Ikan Asin Kembung,0.0,0.0,14,14
-Pasar Ciledug,Gula Pasir lokal,1.5037593984962405,285.7142857142857,14,14
+Pasar Ciledug,Gula Merah,0.0,0.0,14,14
+Pasar Ciledug,Gula Pasir lokal,2.2556390977443606,428.57142857142856,14,14
 Pasar Ciledug,Ikan Asin Teri,0.0,0.0,14,14
-Pasar Ciledug,Ikan Asin Tiga Wajan,0.8928571428571428,357.14285714285717,14,14
 Pasar Ciledug,Jagung Manis,0.0,0.0,14,14
-Pasar Ciledug,Ikan Bandeng,2.631578947368421,1000.0,12,14
+Pasar Ciledug,Ikan Asin Tiga Wajan,0.8035714285714285,321.42857142857144,14,14
+Pasar Ciledug,Ikan Bandeng,2.4436090225563905,928.5714285714286,12,14
 Pasar Ciledug,Ikan Kembung Layang,0.4545454545454546,500.0,14,14
-Pasar Ciledug,Ikan Kembung,4.30827067669173,2107.1428571428573,9,14
+Pasar Ciledug,Ikan Kembung,5.014619883040935,2464.285714285714,8,14
+Pasar Ciledug,Ikan Mas,1.2276785714285714,392.85714285714283,14,14
 Pasar Ciledug,Indomie Kari Ayam,0.0,0.0,14,14
-Pasar Ciledug,Ikan Mas,1.0044642857142858,321.42857142857144,14,14
 Pasar Ciledug,Ikan Tongkol,0.47619047619047616,142.85714285714286,14,14
 Pasar Ciledug,Jagung Pipilan Kering,0.0,0.0,14,14
 Pasar Ciledug,Kangkung,0.0,0.0,14,14
 Pasar Ciledug,Jagung Pipilan,0.0,0.0,14,14
-Pasar Ciledug,Kacang Kedelai Impor,0.0,0.0,14,14
-Pasar Ciledug,Kacang Hijau,4.336734693877551,1214.2857142857142,10,14
 Pasar Ciledug,Kacang Panjang,0.0,0.0,14,14
+Pasar Ciledug,Kacang Hijau,4.336734693877551,1214.2857142857142,10,14
+Pasar Ciledug,Kacang Kedelai Impor,0.0,0.0,14,14
 Pasar Ciledug,Kacang Kedelai Lokal,0.0,0.0,14,14
+Pasar Ciledug,Kacang Tanah/Suuk,3.9455782312925174,1642.857142857143,11,14
 Pasar Ciledug,Kacang Tanah kupas,0.0,0.0,14,14
 Pasar Ciledug,Ketela Pohon/Singkong,0.0,0.0,14,14
-Pasar Ciledug,Kacang Tanah/Suuk,3.860544217687075,1607.142857142857,9,14
-Pasar Ciledug,Kentang,4.017857142857143,642.8571428571429,14,14
-Pasar Ciledug,Kol,15.714285714285712,1571.4285714285713,9,14
+Pasar Ciledug,Kentang,4.241071428571429,678.5714285714286,14,14
 Pasar Ciledug,Kunci Biru,0.0,0.0,14,14
+Pasar Ciledug,Kol,16.071428571428573,1607.142857142857,11,14
 Pasar Ciledug,Margarine Blue Band,0.0,0.0,14,14
-Pasar Ciledug,Margarine Simas,0.47619047619047616,35.714285714285715,14,14
 Pasar Ciledug,Mie Instan Sedaap Soto,8.928571428571427,2500.0,0,14
+Pasar Ciledug,Margarine Simas,0.47619047619047616,35.714285714285715,14,14
 Pasar Ciledug,Minyak Goreng Bimoli,0.0,0.0,14,14
-Pasar Ciledug,Minyak Goreng Curah,1.8707482993197275,392.85714285714283,14,14
+Pasar Ciledug,Minyak Goreng Curah,2.2108843537414966,464.2857142857143,14,14
 Pasar Ciledug,Minyak Goreng Filma,0.0,0.0,14,14
 Pasar Ciledug,Minyak Goreng Kemasan Sederhana,0.0,0.0,14,14
-Pasar Ciledug,Minyak Goreng Tropical,3.722943722943723,821.4285714285714,13,14
-Pasar Ciledug,Sawi Hijau,9.82142857142857,1178.5714285714287,13,14
-Pasar Ciledug,Sawi Petsay,26.02040816326531,3642.8571428571427,1,14
+Pasar Ciledug,Minyak Goreng Tropical,3.0844155844155843,678.5714285714286,14,14
+Pasar Ciledug,Sawi Hijau,8.333333333333336,1000.0,14,14
+Pasar Ciledug,Sawi Petsay,23.214285714285715,3250.0,1,14
 Pasar Ciledug,Segitiga Biru,0.0,0.0,14,14
 Pasar Ciledug,Singkong,0.0,0.0,14,14
 Pasar Ciledug,Susu Bubuk Dancow Putih,0.0,0.0,14,14
-Pasar Ciledug,Susu Bubuk Putih Indomilk,13.63636363636363,1500.0,14,14
-Pasar Ciledug,Telur Bebek Mentah,0.0,0.0,14,14
 Pasar Ciledug,Telur Bebek Asin,0.0,0.0,14,14
-Pasar Ciledug,Susu Kental Manis Bendera Cokelat,0.0,0.0,14,14
+Pasar Ciledug,Telur Bebek Mentah,0.0,0.0,14,14
+Pasar Ciledug,Susu Bubuk Putih Indomilk,13.63636363636363,1500.0,14,14
+Pasar Ciledug,Telur Ayam Broiler,2.571428571428571,642.8571428571429,14,14
 Pasar Ciledug,Susu Kental Manis Indomilk,0.0,0.0,14,14
-Pasar Ciledug,Susu Kental Manis Bendera Putih,0.0,0.0,14,14
-Pasar Ciledug,Telur Ayam Broiler,2.857142857142857,714.2857142857143,14,14
 Pasar Ciledug,Telur Ayam Kampung,0.0,0.0,14,14
+Pasar Ciledug,Susu Kental Manis Bendera Putih,0.0,0.0,14,14
+Pasar Ciledug,Susu Kental Manis Bendera Cokelat,0.0,0.0,14,14
 Pasar Ciledug,Susu Kental Manis Indomilk Cokelat,0.0,0.0,14,14
 Pasar Ciledug,Tepung Terigu Segitiga Biru,0.0,0.0,14,14
 Pasar Ciledug,Tepung Terigu Cakra Kembar,0.0,0.0,14,14
 Pasar Ciledug,Tepung Terigu Kunci Biru,0.0,0.0,14,14
 Pasar Ciledug,Tepung Terigu Segi Tiga Biru,0.0,0.0,14,14
 Pasar Ciledug,Teri Medan Basah,1.285714285714286,642.8571428571429,14,14
-Pasar Ciledug,Teri Medan Kering,0.40178571428571425,321.42857142857144,14,14
-Pasar Ciledug,Tomat Sayur,6.666666666666667,1000.0,14,14
+Pasar Ciledug,Teri Medan Kering,0.49107142857142866,392.85714285714283,14,14
 Pasar Ciledug,Tomat Buah,3.1428571428571423,785.7142857142857,14,14
-Pasar Ciledug,Ubi Jalar,3.0612244897959178,214.28571428571428,14,14
-Pasar Ciledug,Udang,1.0714285714285716,750.0,14,14
-Pasar Cipeujeuh,Bawang Bombay,0.6377551020408162,178.57142857142858,14,14
-Pasar Ciledug,Wortel,5.0,750.0,13,14
+Pasar Ciledug,Tomat Sayur,7.380952380952381,1107.142857142857,14,14
+Pasar Ciledug,Ubi Jalar,1.530612244897959,107.14285714285714,14,14
+Pasar Ciledug,Udang,0.969387755102041,678.5714285714286,14,14
+Pasar Ciledug,Wortel,3.8095238095238093,571.4285714285714,14,14
+Pasar Cipeujeuh,Bawang Bombay,0.25510204081632654,71.42857142857143,14,14
 Pasar Cipeujeuh,Bawang Merah,0.25510204081632654,71.42857142857143,14,14
-Pasar Cipeujeuh,Bawang Putih,5.960884353741497,1678.5714285714287,7,14
-Pasar Cipeujeuh,Bawang putih Katingan,2.119209111690315,821.4285714285714,14,14
-Pasar Cipeujeuh,Beras Medium,2.4478067088904525,357.14285714285717,14,14
-Pasar Cipeujeuh,Beras Premium I,2.6785714285714284,428.57142857142856,14,14
-Pasar Cipeujeuh,Cabe Hijau,17.07209107897047,5142.857142857143,2,14
+Pasar Cipeujeuh,Bawang Putih,6.73469387755102,1892.857142857143,6,14
+Pasar Cipeujeuh,Bawang putih Katingan,2.2225925703369316,857.1428571428571,14,14
+Pasar Cipeujeuh,Beras Medium,2.1927046680741262,321.42857142857144,14,14
+Pasar Cipeujeuh,Beras Premium I,2.9017857142857144,464.2857142857143,14,14
+Pasar Cipeujeuh,Cabe Hijau,19.829417265014456,5928.571428571428,0,14
 Pasar Cipeujeuh,Beras Premium II,0.0,0.0,14,14
-Pasar Cipeujeuh,Buncis,0.0,0.0,14,14
+Pasar Cipeujeuh,Cabe Merah Biasa,17.809016044488196,6142.857142857143,0,14
 Pasar Cipeujeuh,Beras Premium Super,0.0,0.0,14,14
-Pasar Cipeujeuh,Cabe Merah Biasa,16.17625488917862,5571.428571428572,1,14
-Pasar Cipeujeuh,Cabe Merah Keriting,26.174868206166625,16178.57142857143,1,14
-Pasar Cipeujeuh,Cabe Rawit Hijau,4.508501828113298,2035.7142857142858,7,14
-Pasar Cipeujeuh,Cabe Rawit Merah,5.612843977209615,3892.8571428571427,6,14
+Pasar Cipeujeuh,Buncis,0.0,0.0,14,14
+Pasar Cipeujeuh,Cabe Merah Keriting,29.964772295767546,18535.714285714286,0,14
+Pasar Cipeujeuh,Cabe Rawit Hijau,4.43251398616801,2000.0,8,14
+Pasar Cipeujeuh,Cabe Rawit Merah,5.764566083374915,4000.0,5,14
 Pasar Cipeujeuh,Daging Ayam Kampung,0.0,0.0,14,14
-Pasar Cipeujeuh,Daging Ayam Broiler,2.465986394557823,1035.7142857142858,13,14
+Pasar Cipeujeuh,Daging Ayam Broiler,2.210884353741496,928.5714285714286,14,14
 Pasar Cipeujeuh,Daging Sapi Kw 2,1.3333333333333335,2000.0,14,14
 Pasar Cipeujeuh,Daging Kambing,1.5625,2500.0,14,14
-Pasar Cipeujeuh,Daging Sapi Murni,2.098214285714286,3357.1428571428573,14,14
-Pasar Cipeujeuh,Cumi Asin,1.2202380952380953,1464.2857142857142,14,14
+Pasar Cipeujeuh,Daging Sapi Murni,2.1651785714285716,3464.285714285714,14,14
+Pasar Cipeujeuh,Cumi Asin,1.25,1500.0,14,14
 Pasar Cipeujeuh,Garam Beryodium,0.0,0.0,14,14
 Pasar Cipeujeuh,Gula Batu,0.0,0.0,14,14
 Pasar Cipeujeuh,Gula Impor,0.0,0.0,14,14
@@ -189,177 +189,177 @@ Pasar Cipeujeuh,Ikan Asin Kembung,0.0,0.0,14,14
 Pasar Cipeujeuh,Gula Merah,0.0,0.0,14,14
 Pasar Cipeujeuh,Gula Pasir lokal,0.0,0.0,14,14
 Pasar Cipeujeuh,Ikan Asin Tiga Wajan,0.0,0.0,14,14
-Pasar Cipeujeuh,Ikan Bandeng,0.7142857142857143,178.57142857142858,14,14
+Pasar Cipeujeuh,Ikan Bandeng,0.4285714285714286,107.14285714285714,14,14
 Pasar Cipeujeuh,Ikan Kembung,0.0,0.0,14,14
 Pasar Cipeujeuh,Jagung Pipilan,0.0,0.0,14,14
 Pasar Cipeujeuh,Indomie Kari Ayam,0.0,0.0,14,14
 Pasar Cipeujeuh,Kacang Panjang,0.0,0.0,14,14
-Pasar Cipeujeuh,Kacang Hijau,0.0,0.0,14,14
 Pasar Cipeujeuh,Margarine Blue Band,0.0,0.0,14,14
+Pasar Cipeujeuh,Kacang Hijau,0.0,0.0,14,14
 Pasar Cipeujeuh,Kacang Kedelai Impor,0.0,0.0,14,14
 Pasar Cipeujeuh,Kacang Kedelai Lokal,0.0,0.0,14,14
 Pasar Cipeujeuh,Kacang Tanah kupas,0.0,0.0,14,14
 Pasar Cipeujeuh,Kacang Tanah/Suuk,0.0,0.0,14,14
-Pasar Cipeujeuh,Kentang,0.25510204081632654,35.714285714285715,14,14
 Pasar Cipeujeuh,Minyak Goreng Bimoli,0.0,0.0,14,14
+Pasar Cipeujeuh,Kentang,0.0,0.0,14,14
 Pasar Cipeujeuh,Kol,0.0,0.0,14,14
 Pasar Cipeujeuh,Mie Instan Sedaap Soto,6.000000000000002,1500.0,14,14
-Pasar Cipeujeuh,Minyak Goreng Curah,2.5974025974025974,571.4285714285714,14,14
 Pasar Cipeujeuh,Minyak Goreng Kemasan Sederhana,0.0,0.0,14,14
+Pasar Cipeujeuh,Minyak Goreng Curah,2.2727272727272725,500.0,14,14
 Pasar Cipeujeuh,Minyak Goreng Tropical,2.1739130434782603,500.0,14,14
 Pasar Cipeujeuh,Sawi Hijau,0.0,0.0,14,14
 Pasar Cipeujeuh,Sawi Petsay,0.0,0.0,14,14
 Pasar Cipeujeuh,Segitiga Biru,0.0,0.0,14,14
-Pasar Cipeujeuh,Susu Kental Manis Bendera Cokelat,0.0,0.0,14,14
 Pasar Cipeujeuh,Susu Kental Manis Indomilk Cokelat,0.0,0.0,14,14
-Pasar Cipeujeuh,Telur Bebek Asin,0.0,0.0,14,14
+Pasar Cipeujeuh,Susu Kental Manis Bendera Cokelat,0.0,0.0,14,14
 Pasar Cipeujeuh,Susu Kental Manis Bendera Putih,0.0,0.0,14,14
+Pasar Cipeujeuh,Telur Bebek Asin,0.0,0.0,14,14
 Pasar Cipeujeuh,Telur Bebek Mentah,0.0,0.0,14,14
-Pasar Cipeujeuh,Telur Ayam Broiler,1.0582010582010581,285.7142857142857,14,14
 Pasar Cipeujeuh,Tepung Terigu Kunci Biru,0.0,0.0,14,14
 Pasar Cipeujeuh,Teri Medan Basah,0.0,0.0,14,14
+Pasar Cipeujeuh,Telur Ayam Broiler,0.9259259259259258,250.0,14,14
 Pasar Cipeujeuh,Telur Ayam Kampung,0.0,0.0,14,14
 Pasar Cipeujeuh,Tepung Terigu Segi Tiga Biru,0.0,0.0,14,14
 Pasar Cipeujeuh,Teri Medan Kering,0.11904761904761904,107.14285714285714,14,14
+Pasar Cipeujeuh,Tomat Buah,7.659689516832373,1000.0,12,14
+Pasar Cipeujeuh,Tomat Sayur,10.903847705089941,1178.5714285714287,11,14
 Pasar Jamblang,Bawang Bombay,0.7142857142857143,250.0,14,14
-Pasar Cipeujeuh,Tomat Buah,7.977745799174371,1035.7142857142858,11,14
+Pasar Cipeujeuh,Wortel,2.9017857142857144,464.2857142857143,14,14
 Pasar Cipeujeuh,Udang,0.0,0.0,14,14
-Pasar Cipeujeuh,Tomat Sayur,11.63107337796779,1250.0,9,14
-Pasar Cipeujeuh,Ubi Jalar,1.5625,250.0,14,14
-Pasar Cipeujeuh,Wortel,2.455357142857143,392.85714285714283,14,14
-Pasar Jamblang,Bawang Merah,6.887755102040817,2035.7142857142858,7,14
+Pasar Cipeujeuh,Ubi Jalar,1.7857142857142856,285.7142857142857,14,14
 Pasar Jamblang,Beras Bulog,0.0,0.0,14,14
-Pasar Jamblang,Bawang Putih,0.9226190476190474,285.7142857142857,13,14
-Pasar Jamblang,Bawang putih Katingan,1.4600648114614996,571.4285714285714,13,14
+Pasar Jamblang,Bawang Merah,6.7517006802721085,2000.0,7,14
+Pasar Jamblang,Bawang Putih,0.699404761904762,214.28571428571428,13,14
 Pasar Jamblang,Besi Beton 10 mm,0.0,0.0,14,14
+Pasar Jamblang,Bawang putih Katingan,1.7502879960051372,678.5714285714286,12,14
 Pasar Jamblang,Beras Medium,0.0,0.0,14,14
 Pasar Jamblang,Beras Premium Super,0.0,0.0,14,14
-Pasar Jamblang,Beras Premium I,0.4329004329004329,71.42857142857143,14,14
+Pasar Jamblang,Beras Premium I,0.21645021645021645,35.714285714285715,14,14
 Pasar Jamblang,Beras Premium II,2.9017857142857144,464.2857142857143,14,14
 Pasar Jamblang,Buncis,0.0,0.0,14,14
-Pasar Jamblang,Cabe Hijau,5.462184873949581,928.5714285714286,12,14
-Pasar Jamblang,Cabe Merah Biasa,12.690476190476192,4892.857142857143,4,14
-Pasar Jamblang,Cabe Merah Keriting,5.952380952380952,4000.0,6,14
-Pasar Jamblang,Cabe Rawit Merah,2.7111678004535147,2178.5714285714284,12,14
-Pasar Jamblang,Cabe Rawit Hijau,8.475622002230295,4535.714285714285,4,14
-Pasar Jamblang,Daging Ayam Broiler,0.7450252828404088,250.0,14,14
-Pasar Jamblang,Cumi Asin,0.40816326530612246,571.4285714285714,14,14
-Pasar Jamblang,Daging Sapi Kw 2,1.4285714285714288,1714.2857142857142,14,14
-Pasar Jamblang,Daging Sapi Murni,1.3010204081632653,1821.4285714285713,14,14
+Pasar Jamblang,Cabe Hijau,5.042016806722689,857.1428571428571,12,14
+Pasar Jamblang,Cabe Merah Biasa,15.016156462585032,5285.714285714285,5,14
+Pasar Jamblang,Cabe Merah Keriting,6.845238095238095,4571.428571428572,4,14
+Pasar Jamblang,Cabe Rawit Hijau,8.29542967976216,4428.571428571428,3,14
+Pasar Jamblang,Cabe Rawit Merah,2.1726190476190474,1750.0,12,14
+Pasar Jamblang,Daging Ayam Broiler,1.3821892393320965,464.2857142857143,13,14
+Pasar Jamblang,Cumi Asin,0.6377551020408163,892.8571428571429,14,14
+Pasar Jamblang,Daging Sapi Kw 2,1.2500000000000002,1500.0,14,14
+Pasar Jamblang,Daging Sapi Murni,0.9183673469387754,1285.7142857142858,14,14
 Pasar Jamblang,Garam Beryodium,0.0,0.0,14,14
 Pasar Jamblang,Gas Elpiji,0.0,0.0,14,14
-Pasar Jamblang,Ikan Asin Tiga Wajan,0.0,0.0,14,14
-Pasar Jamblang,Gula Impor,0.0,0.0,14,14
 Pasar Jamblang,Gula Batu,0.0,0.0,14,14
-Pasar Jamblang,Gula Merah,1.6806722689075633,285.7142857142857,14,14
-Pasar Jamblang,Gula Pasir lokal,2.330827067669173,464.2857142857143,14,14
+Pasar Jamblang,Gula Impor,0.0,0.0,14,14
+Pasar Jamblang,Ikan Asin Tiga Wajan,0.0,0.0,14,14
+Pasar Jamblang,Gula Merah,1.8907563025210083,321.42857142857144,14,14
+Pasar Jamblang,Gula Pasir lokal,2.340225563909775,464.2857142857143,14,14
 Pasar Jamblang,Ikan Asin Kembung,0.0,0.0,14,14
+Pasar Jamblang,Ikan Kembung,3.75,1500.0,9,14
 Pasar Jamblang,Ikan Bandeng,1.2500000000000002,500.0,14,14
-Pasar Jamblang,Ikan Kembung,8.392857142857144,3357.1428571428573,3,14
 Pasar Jamblang,Indomie Kari Ayam,1.111111111111111,500.0,14,14
 Pasar Jamblang,Ikan Mas,1.2500000000000002,500.0,14,14
 Pasar Jamblang,Ikan Tongkol,3.214285714285714,964.2857142857143,13,14
 Pasar Jamblang,Jagung Pipilan,0.0,0.0,14,14
 Pasar Jamblang,Kacang Hijau,0.13736263736263737,35.714285714285715,14,14
-Pasar Jamblang,Kacang Kedelai Impor,3.571428571428571,500.0,14,14
+Pasar Jamblang,Kacang Kedelai Impor,3.3163265306122445,464.2857142857143,14,14
 Pasar Jamblang,Kacang Panjang,0.0,0.0,14,14
 Pasar Jamblang,Kacang Kedelai Lokal,0.0,0.0,14,14
 Pasar Jamblang,Kacang Tanah kupas,0.0,0.0,14,14
 Pasar Jamblang,Kacang Tanah/Suuk,1.2500000000000002,500.0,14,14
 Pasar Jamblang,Minyak Goreng Filma,0.0,0.0,14,14
-Pasar Jamblang,Kentang,2.232142857142857,357.14285714285717,14,14
+Pasar Jamblang,Kentang,1.5625,250.0,14,14
 Pasar Jamblang,Kol,0.0,0.0,14,14
 Pasar Jamblang,Margarine Blue Band,0.0,0.0,14,14
 Pasar Jamblang,Margarine Simas,0.0,0.0,14,14
 Pasar Jamblang,Mie Instan Sedaap Soto,7.1428571428571415,2000.0,0,14
 Pasar Jamblang,Minyak Goreng Bimoli,0.0,0.0,14,14
-Pasar Jamblang,Minyak Goreng Curah,0.35714285714285715,71.42857142857143,14,14
-Pasar Jamblang,Minyak Goreng Kemasan Sederhana,0.37593984962406013,71.42857142857143,14,14
-Pasar Jamblang,Minyak Goreng Tropical,0.3246753246753247,71.42857142857143,14,14
-Pasar Jamblang,Sawi Hijau,16.36904761904762,1964.2857142857142,8,14
-Pasar Jamblang,Sawi Petsay,3.7946428571428568,607.1428571428571,13,14
+Pasar Jamblang,Minyak Goreng Curah,0.7142857142857143,142.85714285714286,14,14
+Pasar Jamblang,Minyak Goreng Tropical,0.0,0.0,14,14
+Pasar Jamblang,Minyak Goreng Kemasan Sederhana,0.18796992481203006,35.714285714285715,14,14
+Pasar Jamblang,Sawi Hijau,17.261904761904763,2071.4285714285716,6,14
+Pasar Jamblang,Sawi Petsay,4.6875,750.0,13,14
 Pasar Jamblang,Segitiga Biru,0.0,0.0,14,14
 Pasar Jamblang,Singkong,0.0,0.0,14,14
 Pasar Jamblang,Telur Bebek Mentah,0.0,0.0,14,14
 Pasar Jamblang,Tepung Terigu Kunci Biru,0.0,0.0,14,14
 Pasar Jamblang,Susu Kental Manis Bendera Cokelat,0.0,0.0,14,14
 Pasar Jamblang,Telur Ayam Kampung,0.0,0.0,14,14
-Pasar Jamblang,Telur Ayam Broiler,6.341040242520353,1428.5714285714287,7,14
+Pasar Jamblang,Telur Ayam Broiler,6.005866114561766,1357.142857142857,8,14
 Pasar Jamblang,Susu Kental Manis Bendera Putih,0.0,0.0,14,14
 Pasar Jamblang,Teri Medan Basah,0.0,0.0,14,14
 Pasar Jamblang,Telur Bebek Asin,1.2500000000000002,500.0,14,14
-Pasar Jamblang,Tepung Terigu Segi Tiga Biru,0.2976190476190476,35.714285714285715,14,14
+Pasar Jamblang,Tepung Terigu Segi Tiga Biru,0.0,0.0,14,14
 Pasar Jamblang,Teri Medan Kering,3.9999999999999996,2000.0,14,14
 Pasar Jamblang,Tomat Buah,0.0,0.0,14,14
-Pasar Jamblang,Tomat Sayur,20.0,2000.0,9,14
-Pasar Jamblang,Udang,0.8333333333333334,500.0,14,14
+Pasar Jamblang,Tomat Sayur,19.642857142857142,1964.2857142857142,9,14
 Pasar Jamblang,Ubi Jalar,0.0,0.0,14,14
-Pasar Palimanan,Bawang Bombay,0.7936507936507936,285.7142857142857,14,14
+Pasar Jamblang,Udang,0.8333333333333334,500.0,14,14
+Pasar Palimanan,Bawang Bombay,0.5952380952380953,214.28571428571428,14,14
 Pasar Jamblang,Wortel,0.0,0.0,14,14
-Pasar Palimanan,Bawang Merah,3.256802721088435,964.2857142857143,13,14
-Pasar Palimanan,Bawang Putih,8.127250900360146,2857.1428571428573,3,14
-Pasar Palimanan,Bawang putih Katingan,0.9821428571428573,392.85714285714283,14,14
-Pasar Palimanan,Beras Bulog,1.2163561076604554,142.85714285714286,14,14
+Pasar Palimanan,Bawang Merah,3.3588435374149657,1000.0,13,14
+Pasar Palimanan,Bawang Putih,5.762971855408829,2035.7142857142858,7,14
+Pasar Palimanan,Bawang putih Katingan,0.8928571428571428,357.14285714285717,14,14
+Pasar Palimanan,Beras Bulog,2.393892339544514,285.7142857142857,14,14
 Pasar Palimanan,Besi Beton 10 mm,0.0,0.0,14,14
-Pasar Palimanan,Beras Medium,5.0,750.0,14,14
-Pasar Palimanan,Beras Premium I,3.7946428571428568,607.1428571428571,14,14
+Pasar Palimanan,Beras Medium,3.8095238095238093,571.4285714285714,14,14
+Pasar Palimanan,Beras Premium I,3.3482142857142856,535.7142857142857,14,14
 Pasar Palimanan,Beras Premium II,0.0,0.0,14,14
-Pasar Palimanan,Beras Premium Super,0.0,0.0,14,14
+Pasar Palimanan,Beras Premium Super,2.777777777777778,500.0,14,14
 Pasar Palimanan,Cakra Kembar,0.0,0.0,14,14
-Pasar Palimanan,Cabe Hijau,9.311224489795917,2607.1428571428573,2,14
-Pasar Palimanan,Buncis,9.761904761904761,1928.5714285714287,7,14
-Pasar Palimanan,Cabe Merah Keriting,4.4145021645021645,2321.4285714285716,10,14
-Pasar Palimanan,Cabe Merah Biasa,3.1490929705215422,1107.142857142857,11,14
-Pasar Palimanan,Cabe Rawit Hijau,12.661976911976911,6714.285714285715,2,14
-Pasar Palimanan,Cabe Rawit Merah,5.291674809458667,4500.0,8,14
-Pasar Palimanan,Cumi Asin,1.9642857142857149,1964.2857142857142,13,14
-Pasar Palimanan,Daging Ayam Broiler,0.4960317460317461,178.57142857142858,14,14
+Pasar Palimanan,Cabe Hijau,8.562074829931971,2321.4285714285716,6,14
+Pasar Palimanan,Buncis,10.813492063492063,2142.8571428571427,6,14
+Pasar Palimanan,Cabe Merah Biasa,3.470554888622115,1214.2857142857142,11,14
+Pasar Palimanan,Cabe Merah Keriting,4.463203463203462,2428.5714285714284,9,14
+Pasar Palimanan,Cabe Rawit Hijau,13.303030303030303,6714.285714285715,1,14
+Pasar Palimanan,Cabe Rawit Merah,4.998045729919875,4250.0,7,14
+Pasar Palimanan,Cumi Asin,0.7857142857142856,785.7142857142857,14,14
+Pasar Palimanan,Daging Ayam Broiler,0.9920634920634922,357.14285714285717,13,14
 Pasar Palimanan,Daging Ayam Kampung,0.8333333333333334,500.0,14,14
 Pasar Palimanan,Daging Kambing,2.142857142857143,1500.0,14,14
-Pasar Palimanan,Daging Sapi Kw 2,1.5178571428571428,1821.4285714285713,14,14
-Pasar Palimanan,Daging Sapi Murni,1.181547619047619,1821.4285714285713,13,14
+Pasar Palimanan,Daging Sapi Murni,1.2053571428571426,1857.142857142857,13,14
+Pasar Palimanan,Daging Sapi Kw 2,1.4583333333333335,1750.0,14,14
 Pasar Palimanan,Garam Beryodium,0.0,0.0,14,14
 Pasar Palimanan,Gas Elpiji,0.0,0.0,14,14
 Pasar Palimanan,Ikan Asin Kembung,0.0,0.0,14,14
-Pasar Palimanan,Gula Batu,5.535714285714285,1107.142857142857,12,14
+Pasar Palimanan,Gula Batu,4.642857142857144,928.5714285714286,13,14
 Pasar Palimanan,Ikan Asin Teri,0.0,0.0,14,14
 Pasar Palimanan,Gula Impor,0.0,0.0,14,14
-Pasar Palimanan,Gula Merah,15.613095238095237,3892.8571428571427,1,14
+Pasar Palimanan,Gula Merah,14.869047619047615,3714.285714285714,3,14
 Pasar Palimanan,Ikan Asin Peda,0.0,0.0,14,14
-Pasar Palimanan,Gula Pasir lokal,2.226720647773279,428.57142857142856,14,14
+Pasar Palimanan,Gula Pasir lokal,0.9205706574127627,178.57142857142858,14,14
 Pasar Palimanan,Ikan Kembung Layang,0.0,0.0,14,14
 Pasar Palimanan,Ikan Asin Tiga Wajan,14.999999999999996,1500.0,14,14
-Pasar Palimanan,Ikan Bandeng,16.73894557823129,7392.857142857143,1,14
-Pasar Palimanan,Ikan Kembung,10.520562770562773,6142.857142857143,2,14
+Pasar Palimanan,Ikan Bandeng,18.82936507936508,8357.142857142857,0,14
 Pasar Palimanan,Jagung Pipilan Kering,0.0,0.0,14,14
+Pasar Palimanan,Ikan Kembung,9.232683982683984,5214.285714285715,2,14
 Pasar Palimanan,Ikan Mas,0.0,0.0,14,14
-Pasar Palimanan,Indomie Kari Ayam,54.761904761904766,1642.857142857143,10,14
+Pasar Palimanan,Indomie Kari Ayam,58.333333333333336,1750.0,9,14
 Pasar Palimanan,Jagung Manis,0.0,0.0,14,14
-Pasar Palimanan,Ikan Tongkol,8.826530612244898,3357.1428571428573,2,14
-Pasar Palimanan,Jagung Pipilan,1.1428571428571428,142.85714285714286,14,14
+Pasar Palimanan,Ikan Tongkol,5.229591836734693,2000.0,8,14
+Pasar Palimanan,Jagung Pipilan,0.8571428571428572,107.14285714285714,14,14
 Pasar Palimanan,Kayu Meranti,0.0,0.0,14,14
-Pasar Palimanan,Kacang Hijau,0.3781775868242034,107.14285714285714,14,14
-Pasar Palimanan,Kacang Kedelai Impor,5.133928571428571,821.4285714285714,14,14
+Pasar Palimanan,Kacang Hijau,0.12531328320802004,35.714285714285715,14,14
+Pasar Palimanan,Kacang Kedelai Impor,5.36434331797235,857.1428571428571,14,14
 Pasar Palimanan,Kacang Panjang,0.0,0.0,14,14
-Pasar Palimanan,Kacang Kedelai Lokal,2.040816326530612,285.7142857142857,14,14
-Pasar Palimanan,Kacang Tanah kupas,3.2653061224489806,1142.857142857143,12,14
+Pasar Palimanan,Kacang Kedelai Lokal,2.295918367346938,321.42857142857144,14,14
+Pasar Palimanan,Kacang Tanah kupas,3.1632653061224496,1107.142857142857,12,14
 Pasar Palimanan,Kunci Biru,0.0,0.0,14,14
-Pasar Palimanan,Kacang Tanah/Suuk,7.327207501100749,3142.8571428571427,4,14
-Pasar Palimanan,Kentang,7.364612511671334,1321.4285714285713,6,14
-Pasar Palimanan,Kol,2.857142857142857,285.7142857142857,14,14
+Pasar Palimanan,Kacang Tanah/Suuk,7.83177560741304,3357.1428571428573,3,14
+Pasar Palimanan,Kentang,8.345004668534079,1500.0,5,14
+Pasar Palimanan,Kol,4.2857142857142865,428.57142857142856,13,14
 Pasar Palimanan,Minyak Goreng Sania,0.0,0.0,14,14
-Pasar Palimanan,Margarine Blue Band,0.47619047619047616,35.714285714285715,14,14
-Pasar Palimanan,Margarine Simas,1.4285714285714286,107.14285714285714,14,14
+Pasar Palimanan,Margarine Blue Band,0.0,0.0,14,14
 Pasar Palimanan,Mie Instan Sedaap Soto,5.000000000000001,1500.0,14,14
+Pasar Palimanan,Margarine Simas,1.9047619047619047,142.85714285714286,14,14
 Pasar Palimanan,Minyak Goreng Bimoli,0.0,0.0,14,14
-Pasar Palimanan,Minyak Goreng Curah,1.8315018315018312,357.14285714285717,14,14
 Pasar Palimanan,Minyak Goreng Filma,0.0,0.0,14,14
-Pasar Palimanan,Segitiga Biru,0.0,0.0,14,14
+Pasar Palimanan,Minyak Goreng Curah,2.0146520146520146,392.85714285714283,14,14
 Pasar Palimanan,Minyak Goreng Kemasan Sederhana,0.0,0.0,14,14
-Pasar Palimanan,Minyak Goreng Tropical,2.917722887658133,678.5714285714286,14,14
-Pasar Palimanan,Sawi Hijau,23.958333333333332,2714.285714285714,5,14
-Pasar Palimanan,Sawi Petsay,6.076388888888889,1071.4285714285713,13,14
-Pasar Palimanan,Singkong,9.183673469387754,642.8571428571429,14,14
+Pasar Palimanan,Segitiga Biru,0.0,0.0,14,14
+Pasar Palimanan,Minyak Goreng Tropical,4.909475353508654,1142.857142857143,13,14
+Pasar Palimanan,Sawi Hijau,24.057539682539684,2714.285714285714,5,14
+Pasar Palimanan,Sawi Petsay,6.919642857142858,1214.2857142857142,10,14
+Pasar Palimanan,Singkong,5.10204081632653,357.14285714285717,14,14
 Pasar Palimanan,Susu Bubuk Putih Indomilk,5.000000000000001,500.0,14,14
 Pasar Palimanan,Susu Bubuk Dancow Putih,4.347826086956521,500.0,14,14
 Pasar Palimanan,Telur Bebek Mentah,0.0,0.0,14,14
@@ -367,167 +367,167 @@ Pasar Palimanan,Susu Kental Manis Bendera Cokelat,0.0,0.0,14,14
 Pasar Palimanan,Susu Kental Manis Bendera Putih,3.296703296703296,428.57142857142856,14,14
 Pasar Palimanan,Telur Bebek Asin,0.0,0.0,14,14
 Pasar Palimanan,Susu Kental Manis Indomilk,0.0,0.0,14,14
-Pasar Palimanan,Telur Ayam Broiler,5.002532928064842,1178.5714285714287,14,14
-Pasar Palimanan,Susu Kental Manis Indomilk Cokelat,1.5527950310559007,178.57142857142858,14,14
+Pasar Palimanan,Telur Ayam Broiler,5.312816616008105,1250.0,13,14
+Pasar Palimanan,Susu Kental Manis Indomilk Cokelat,1.8633540372670807,214.28571428571428,14,14
 Pasar Palimanan,Telur Ayam Kampung,0.0,0.0,14,14
 Pasar Palimanan,Teri Medan Basah,0.0,0.0,14,14
 Pasar Palimanan,Tepung Terigu Cakra Kembar,0.0,0.0,14,14
-Pasar Palimanan,Tepung Terigu Segi Tiga Biru,4.1208791208791204,535.7142857142857,14,14
 Pasar Palimanan,Tepung Terigu Kunci Biru,0.0,0.0,14,14
+Pasar Palimanan,Tepung Terigu Segi Tiga Biru,4.1208791208791204,535.7142857142857,14,14
 Pasar Palimanan,Tepung Terigu Segitiga Biru,0.4545454545454546,500.0,14,14
-Pasar Palimanan,Teri Medan Kering,11.964285714285714,11714.285714285714,0,14
-Pasar Palimanan,Tomat Buah,4.166666666666667,1000.0,11,14
-Pasar Palimanan,Tomat Sayur,4.302721088435374,607.1428571428571,13,14
-Pasar Palimanan,Ubi Jalar,9.183673469387754,642.8571428571429,12,14
+Pasar Palimanan,Teri Medan Kering,4.276785714285715,4178.571428571428,10,14
+Pasar Palimanan,Tomat Buah,3.5714285714285707,857.1428571428571,12,14
+Pasar Palimanan,Tomat Sayur,6.598639455782311,928.5714285714286,12,14
+Pasar Palimanan,Ubi Jalar,11.224489795918366,785.7142857142857,11,14
 Pasar Pasalaran,Beras Bulog Premium,0.0,0.0,14,14
-Pasar Pasalaran,Bawang Bombay,1.938775510204082,678.5714285714286,14,14
-Pasar Palimanan,Udang,3.6224489795918364,2535.714285714286,13,14
-Pasar Palimanan,Wortel,6.299603174603174,1000.0,13,14
-Pasar Pasalaran,Bawang Merah,4.298796441653584,1464.2857142857142,10,14
-Pasar Pasalaran,Bawang Putih,0.7142857142857143,250.0,14,14
-Pasar Pasalaran,Bawang putih Katingan,3.7301587301587302,1678.5714285714287,11,14
+Pasar Palimanan,Udang,3.6734693877551017,2571.4285714285716,14,14
+Pasar Pasalaran,Bawang Bombay,2.0408163265306123,714.2857142857143,14,14
+Pasar Palimanan,Wortel,16.205357142857142,2535.714285714286,4,14
+Pasar Pasalaran,Bawang Merah,5.1831501831501825,1785.7142857142858,9,14
+Pasar Pasalaran,Bawang Putih,0.30612244897959184,107.14285714285714,14,14
 Pasar Pasalaran,Besi Beton 10 mm,0.0,0.0,14,14
+Pasar Pasalaran,Bawang putih Katingan,3.6507936507936503,1642.857142857143,13,14
 Pasar Pasalaran,Beras Bulog,0.0,0.0,14,14
 Pasar Pasalaran,Beras Medium,1.3227513227513228,178.57142857142858,14,14
 Pasar Pasalaran,Beras Premium I,2.142857142857143,321.42857142857144,14,14
 Pasar Pasalaran,Beras Premium II,0.0,0.0,14,14
 Pasar Pasalaran,Beras Premium Super,0.49261083743842365,71.42857142857143,14,14
 Pasar Pasalaran,Cabe Hijau,1.6666666666666667,500.0,14,14
+Pasar Pasalaran,Cabe Merah Biasa,16.174959336162857,5785.714285714285,3,14
 Pasar Pasalaran,Buncis,0.0,0.0,14,14
-Pasar Pasalaran,Cabe Merah Biasa,11.931780059470862,4321.428571428572,5,14
-Pasar Pasalaran,Cabe Merah Keriting,1.741071428571429,1392.857142857143,14,14
-Pasar Pasalaran,Cabe Rawit Hijau,15.77425456163774,7928.571428571428,4,14
-Pasar Pasalaran,Cabe Rawit Merah,4.0773809523809526,3357.1428571428573,11,14
+Pasar Pasalaran,Cabe Merah Keriting,1.6071428571428574,1285.7142857142858,14,14
+Pasar Pasalaran,Cabe Rawit Hijau,18.3126705814242,9178.57142857143,1,14
+Pasar Pasalaran,Cabe Rawit Merah,5.1686507936507935,4250.0,9,14
+Pasar Pasalaran,Daging Ayam Broiler,2.1335135161290624,714.2857142857143,12,14
 Pasar Pasalaran,Cumi Asin,0.5208333333333333,500.0,14,14
-Pasar Pasalaran,Daging Ayam Broiler,2.1367463090896868,714.2857142857143,12,14
-Pasar Pasalaran,Daging Ayam Kampung,1.7857142857142856,571.4285714285714,14,14
-Pasar Pasalaran,Daging Kambing,0.35714285714285715,500.0,14,14
+Pasar Pasalaran,Daging Ayam Kampung,2.0089285714285716,642.8571428571429,14,14
 Pasar Pasalaran,Daging Sapi Kw 2,0.0,0.0,14,14
-Pasar Pasalaran,Daging Sapi Murni,2.9910714285714284,4785.714285714285,12,14
-Pasar Pasalaran,Garam Beryodium,17.142857142857146,428.57142857142856,14,14
+Pasar Pasalaran,Daging Kambing,0.35714285714285715,500.0,14,14
+Pasar Pasalaran,Daging Sapi Murni,2.5,4000.0,13,14
+Pasar Pasalaran,Garam Beryodium,15.714285714285712,392.85714285714283,14,14
 Pasar Pasalaran,Gas Elpiji,0.0,0.0,14,14
 Pasar Pasalaran,Gula Batu,0.0,0.0,14,14
-Pasar Pasalaran,Gula Impor,0.3968253968253968,71.42857142857143,14,14
+Pasar Pasalaran,Gula Impor,0.5952380952380952,107.14285714285714,14,14
 Pasar Pasalaran,Gula Merah,0.0,0.0,14,14
-Pasar Pasalaran,Gula Pasir lokal,4.365079365079366,785.7142857142857,12,14
 Pasar Pasalaran,Ikan Asin Kembung,0.0,0.0,14,14
 Pasar Pasalaran,Ikan Asin Peda,0.0,0.0,14,14
+Pasar Pasalaran,Gula Pasir lokal,2.5793650793650795,464.2857142857143,14,14
 Pasar Pasalaran,Ikan Asin Tiga Wajan,25.0,2500.0,0,14
 Pasar Pasalaran,Ikan Mas,0.0,0.0,14,14
 Pasar Pasalaran,Ikan Bandeng,0.0,0.0,14,14
-Pasar Pasalaran,Ikan Kembung,14.55390470857996,6857.142857142857,0,14
-Pasar Pasalaran,Indomie Kari Ayam,0.0,0.0,14,14
+Pasar Pasalaran,Ikan Kembung,13.730769743507706,6464.285714285715,0,14
+Pasar Pasalaran,Indomie Kari Ayam,1.1904761904761905,35.714285714285715,14,14
 Pasar Pasalaran,Ikan Tongkol,0.0,0.0,14,14
-Pasar Pasalaran,Jagung Pipilan,4.894179894179894,642.8571428571429,11,14
 Pasar Pasalaran,Kacang Panjang,0.0,0.0,14,14
+Pasar Pasalaran,Jagung Pipilan,6.746031746031746,892.8571428571429,10,14
 Pasar Pasalaran,Kacang Hijau,0.0,0.0,14,14
-Pasar Pasalaran,Kacang Kedelai Impor,2.7797325826882475,392.85714285714283,14,14
+Pasar Pasalaran,Kacang Kedelai Impor,3.2899366643209005,464.2857142857143,14,14
 Pasar Pasalaran,Kacang Kedelai Lokal,0.0,0.0,14,14
 Pasar Pasalaran,Kacang Tanah kupas,0.0,0.0,14,14
 Pasar Pasalaran,Kacang Tanah/Suuk,0.0,0.0,14,14
-Pasar Pasalaran,Kentang,0.21008403361344538,35.714285714285715,14,14
-Pasar Pasalaran,Kol,9.300919922037934,1178.5714285714287,10,14
+Pasar Pasalaran,Kentang,0.0,0.0,14,14
 Pasar Pasalaran,Margarine Blue Band,0.0,0.0,14,14
+Pasar Pasalaran,Kol,12.25966752364268,1607.142857142857,9,14
 Pasar Pasalaran,Margarine Simas,0.0,0.0,14,14
 Pasar Pasalaran,Mie Instan Sedaap Soto,6.666666666666667,2000.0,0,14
 Pasar Pasalaran,Minyak Goreng Bimoli,0.0,0.0,14,14
-Pasar Pasalaran,Minyak Goreng Curah,1.7006802721088434,357.14285714285717,14,14
+Pasar Pasalaran,Minyak Goreng Curah,1.1904761904761905,250.0,14,14
 Pasar Pasalaran,Minyak Goreng Filma,0.0,0.0,14,14
-Pasar Pasalaran,Minyak Goreng Kemasan Sederhana,1.5985023041474655,250.0,14,14
 Pasar Pasalaran,Minyak Goreng Tropical,0.6802721088435374,142.85714285714286,14,14
-Pasar Pasalaran,Sawi Hijau,4.757727652464495,464.2857142857143,14,14
-Pasar Pasalaran,Sawi Petsay,0.0,0.0,14,14
+Pasar Pasalaran,Minyak Goreng Kemasan Sederhana,1.3752880184331797,214.28571428571428,14,14
+Pasar Pasalaran,Sawi Hijau,5.472013366750209,535.7142857142857,14,14
+Pasar Pasalaran,Sawi Petsay,0.4464285714285714,35.714285714285715,14,14
 Pasar Pasalaran,Segitiga Biru,0.0,0.0,14,14
 Pasar Pasalaran,Singkong,0.5952380952380952,35.714285714285715,14,14
 Pasar Pasalaran,Susu Bubuk Dancow Putih,0.0,0.0,14,14
 Pasar Pasalaran,Susu Kental Manis Bendera Cokelat,0.0,0.0,14,14
-Pasar Pasalaran,Susu Kental Manis Bendera Putih,0.0,0.0,14,14
+Pasar Pasalaran,Telur Ayam Broiler,3.752450332584467,892.8571428571429,12,14
 Pasar Pasalaran,Susu Kental Manis Indomilk,0.0,0.0,14,14
+Pasar Pasalaran,Susu Kental Manis Bendera Putih,0.8928571428571428,107.14285714285714,14,14
 Pasar Pasalaran,Susu Kental Manis Indomilk Cokelat,0.0,0.0,14,14
-Pasar Pasalaran,Telur Ayam Broiler,5.395825073785295,1285.7142857142858,10,14
 Pasar Pasalaran,Telur Ayam Kampung,0.0,0.0,14,14
 Pasar Pasalaran,Teri Medan Basah,0.0,0.0,14,14
-Pasar Pasalaran,Telur Bebek Asin,0.0,0.0,14,14
 Pasar Pasalaran,Telur Bebek Mentah,0.0,0.0,14,14
+Pasar Pasalaran,Telur Bebek Asin,0.0,0.0,14,14
 Pasar Pasalaran,Tepung Terigu Kunci Biru,0.0,0.0,14,14
 Pasar Pasalaran,Tepung Terigu Segi Tiga Biru,0.0,0.0,14,14
 Pasar Pasalaran,Teri Medan Kering,0.0,0.0,14,14
-Pasar Pasalaran,Tomat Buah,7.440476190476189,892.8571428571429,14,14
-Pasar Pasalaran,Tomat Sayur,2.0068027210884356,285.7142857142857,14,14
+Pasar Pasalaran,Tomat Buah,6.547619047619045,785.7142857142857,14,14
+Pasar Pasalaran,Tomat Sayur,1.7517006802721085,250.0,14,14
 Pasar Sumber,Beras Bulog Premium,0.0,0.0,14,14
-Pasar Pasalaran,Ubi Jalar,24.114583333333332,4750.0,9,14
-Pasar Pasalaran,Udang,0.0,0.0,14,14
+Pasar Pasalaran,Ubi Jalar,26.94940476190476,4964.285714285715,9,14
 Pasar Sumber,Bawang Bombay,1.5873015873015872,714.2857142857143,14,14
-Pasar Pasalaran,Wortel,3.557422969187675,571.4285714285714,12,14
-Pasar Sumber,Bawang Merah,8.185606231740007,2714.285714285714,3,14
+Pasar Pasalaran,Udang,0.0,0.0,14,14
+Pasar Pasalaran,Wortel,3.34733893557423,535.7142857142857,12,14
+Pasar Sumber,Bawang Merah,3.5825351646034753,1178.5714285714287,9,14
 Pasar Sumber,Bawang Putih,0.2232142857142857,71.42857142857143,14,14
-Pasar Sumber,Bawang putih Katingan,3.3928571428571432,1357.142857142857,11,14
+Pasar Sumber,Bawang putih Katingan,3.0357142857142856,1214.2857142857142,12,14
 Pasar Sumber,Beras Premium Super,0.0,0.0,14,14
 Pasar Sumber,Beras Medium,0.0,0.0,14,14
 Pasar Sumber,Beras Premium I,0.0,0.0,14,14
-Pasar Sumber,Besi Beton 10 mm,0.0,0.0,14,14
 Pasar Sumber,Beras Premium II,0.0,0.0,14,14
-Pasar Sumber,Buncis,3.3928571428571432,678.5714285714286,14,14
-Pasar Sumber,Cabe Hijau,4.3019082633053225,1357.142857142857,11,14
-Pasar Sumber,Cabe Merah Biasa,10.352555495882562,3214.285714285714,6,14
-Pasar Sumber,Cabe Merah Keriting,8.124379071584041,5250.0,10,14
+Pasar Sumber,Besi Beton 10 mm,0.0,0.0,14,14
+Pasar Sumber,Cabe Hijau,4.763217787114847,1500.0,11,14
+Pasar Sumber,Buncis,3.0357142857142865,607.1428571428571,14,14
+Pasar Sumber,Cabe Merah Biasa,9.203450020359021,2892.8571428571427,7,14
+Pasar Sumber,Cabe Merah Keriting,9.468775003033542,6142.857142857143,9,14
 Pasar Sumber,Cakra Kembar,0.0,0.0,14,14
-Pasar Sumber,Cabe Rawit Hijau,5.509920634920635,2535.714285714286,8,14
-Pasar Sumber,Cabe Rawit Merah,4.27470988395358,3571.4285714285716,11,14
+Pasar Sumber,Cabe Rawit Hijau,5.557539682539683,2571.4285714285716,9,14
+Pasar Sumber,Cabe Rawit Merah,4.667700413498733,3928.5714285714284,10,14
 Pasar Sumber,Cumi Asin,0.0,0.0,14,14
-Pasar Sumber,Daging Ayam Broiler,3.4015272775776983,1178.5714285714287,10,14
+Pasar Sumber,Daging Ayam Broiler,3.199946645324797,1107.142857142857,9,14
+Pasar Sumber,Daging Kambing,0.672268907563025,1142.857142857143,14,14
 Pasar Sumber,Daging Ayam Kampung,1.5625,500.0,14,14
 Pasar Sumber,Garam Beryodium Bata,0.0,0.0,14,14
-Pasar Sumber,Daging Kambing,0.672268907563025,1142.857142857143,14,14
 Pasar Sumber,Daging Sapi Kw 2,0.0,0.0,14,14
-Pasar Sumber,Daging Sapi Murni,3.4375000000000004,5500.0,12,14
+Pasar Sumber,Daging Sapi Murni,2.991071428571429,4785.714285714285,14,14
 Pasar Sumber,Garam Beryodium,0.0,0.0,14,14
 Pasar Sumber,Ikan Asin Peda,0.0,0.0,14,14
 Pasar Sumber,Gas Elpiji,3.9999999999999996,500.0,14,14
 Pasar Sumber,Ikan Asin Teri,0.0,0.0,14,14
 Pasar Sumber,Gula Batu,0.0,0.0,14,14
-Pasar Sumber,Gula Impor,0.0,0.0,14,14
 Pasar Sumber,Ikan Asin Kembung,0.0,0.0,14,14
 Pasar Sumber,Gula Merah,0.0,0.0,14,14
-Pasar Sumber,Gula Pasir lokal,1.3366750208855471,250.0,14,14
+Pasar Sumber,Gula Impor,0.0,0.0,14,14
+Pasar Sumber,Gula Pasir lokal,1.890142021720969,357.14285714285717,14,14
 Pasar Sumber,Ikan Kembung Layang,0.0,0.0,14,14
 Pasar Sumber,Jagung Manis,0.0,0.0,14,14
 Pasar Sumber,Ikan Asin Tiga Wajan,6.666666666666667,1000.0,14,14
 Pasar Sumber,Ikan Bandeng,0.0,0.0,14,14
+Pasar Sumber,Indomie Kari Ayam,5.952380952380952,178.57142857142858,14,14
 Pasar Sumber,Ikan Kembung,1.0869565217391302,500.0,14,14
-Pasar Sumber,Indomie Kari Ayam,7.142857142857142,214.28571428571428,14,14
 Pasar Sumber,Ikan Mas,0.0,0.0,14,14
 Pasar Sumber,Ikan Tongkol,0.0,0.0,14,14
-Pasar Sumber,Jagung Pipilan,0.0,0.0,14,14
 Pasar Sumber,Kacang Panjang,0.0,0.0,14,14
+Pasar Sumber,Jagung Pipilan,0.0,0.0,14,14
 Pasar Sumber,Kangkung,0.0,0.0,14,14
 Pasar Sumber,Kacang Hijau,0.0,0.0,14,14
 Pasar Sumber,Kacang Kedelai Impor,0.0,0.0,14,14
-Pasar Sumber,Kacang Kedelai Lokal,6.868131868131869,892.8571428571429,10,14
+Pasar Sumber,Kacang Kedelai Lokal,6.043956043956045,785.7142857142857,11,14
 Pasar Sumber,Kacang Tanah kupas,3.3333333333333335,500.0,14,14
 Pasar Sumber,Kacang Tanah/Suuk,0.0,0.0,14,14
-Pasar Sumber,Kentang,1.1160714285714286,178.57142857142858,14,14
-Pasar Sumber,Kol,3.3333333333333335,500.0,14,14
+Pasar Sumber,Kentang,0.6696428571428571,107.14285714285714,14,14
 Pasar Sumber,Kunci Biru,0.0,0.0,14,14
+Pasar Sumber,Kol,3.3333333333333335,500.0,14,14
 Pasar Sumber,Margarine Blue Band,0.0,0.0,14,14
-Pasar Sumber,Mie Instan Sedaap Soto,8.333333333333332,2000.0,0,14
 Pasar Sumber,Margarine Simas,0.0,0.0,14,14
+Pasar Sumber,Mie Instan Sedaap Soto,8.333333333333332,2000.0,0,14
 Pasar Sumber,Minyak Goreng Bimoli,0.0,0.0,14,14
-Pasar Sumber,Minyak Goreng Curah,2.349851145532208,500.0,14,14
-Pasar Sumber,Segitiga Biru,0.0,0.0,14,14
+Pasar Sumber,Minyak Goreng Curah,2.353999146195889,500.0,14,14
 Pasar Sumber,Minyak Goreng Kemasan Sederhana,0.0,0.0,14,14
+Pasar Sumber,Segitiga Biru,0.0,0.0,14,14
 Pasar Sumber,Minyak Goreng Filma,1.7142857142857144,214.28571428571428,14,14
 Pasar Sumber,Minyak Goreng Tropical,0.974025974025974,214.28571428571428,14,14
-Pasar Sumber,Susu Kental Manis Indomilk,0.0,0.0,14,14
+Pasar Sumber,Sawi Hijau,0.0,0.0,14,14
 Pasar Sumber,Telur Ayam Kampung,0.0,0.0,14,14
 Pasar Sumber,Telur Bebek Asin,0.0,0.0,14,14
 Pasar Sumber,Telur Bebek Mentah,0.0,0.0,14,14
-Pasar Sumber,Sawi Hijau,0.0,0.0,14,14
+Pasar Sumber,Susu Kental Manis Indomilk,0.0,0.0,14,14
 Pasar Sumber,Sawi Petsay,3.125,500.0,14,14
 Pasar Sumber,Singkong,0.0,0.0,14,14
 Pasar Sumber,Susu Kental Manis Bendera Cokelat,0.0,0.0,14,14
 Pasar Sumber,Susu Kental Manis Bendera Putih,0.0,0.0,14,14
-Pasar Sumber,Telur Ayam Broiler,5.154220779220778,1178.5714285714287,11,14
+Pasar Sumber,Telur Ayam Broiler,4.991883116883117,1142.857142857143,11,14
 Pasar Sumber,Susu Kental Manis Indomilk Cokelat,0.0,0.0,14,14
 Pasar Sumber,Tepung Terigu Cakra Kembar,0.0,0.0,14,14
 Pasar Sumber,Tepung Terigu Kunci Biru,0.0,0.0,14,14
@@ -536,96 +536,96 @@ Pasar Sumber,Teri Medan Basah,0.0,0.0,14,14
 Pasar Sumber,Teri Medan Kering,0.7142857142857143,1000.0,14,14
 Pasar Sumber,Tomat Buah,2.857142857142857,1000.0,14,14
 Pasar Sumber,Tomat Sayur,3.3333333333333335,1000.0,14,14
-Pasar Sumber,Ubi Jalar,6.428571428571428,964.2857142857143,13,14
+Pasar Sumber,Ubi Jalar,6.666666666666667,1000.0,13,14
 Semua Pasar (Gabungan),Beras Bulog Premium,0.0,0.0,14,14
 Pasar Sumber,Udang,0.0,0.0,14,14
+Semua Pasar (Gabungan),Bawang Bombay,0.8928571428571395,311.2244897959172,14,14
 Pasar Sumber,Wortel,2.5000000000000004,500.0,14,14
-Semua Pasar (Gabungan),Bawang Bombay,0.9367681498828997,326.5306122448965,14,14
-Semua Pasar (Gabungan),Bawang Merah,4.314463319494214,1336.734693877551,8,14
-Semua Pasar (Gabungan),Bawang Putih,2.274761588233849,729.5918367346939,14,14
-Semua Pasar (Gabungan),Bawang putih Katingan,1.677574928474213,668.3673469387769,14,14
+Semua Pasar (Gabungan),Bawang Merah,5.030383020708034,1566.326530612245,7,14
+Semua Pasar (Gabungan),Bawang Putih,2.3230127471044777,744.8979591836736,14,14
+Semua Pasar (Gabungan),Bawang putih Katingan,1.665928965741293,663.2653061224503,14,14
 Semua Pasar (Gabungan),Beras Bulog,0.13736263736263737,14.285714285714286,14,14
-Semua Pasar (Gabungan),Beras Medium,1.2936399167554953,183.67346938775518,14,14
+Semua Pasar (Gabungan),Beras Medium,1.2214898446054228,173.4693877551021,14,14
 Semua Pasar (Gabungan),Beras Premium I,1.3636363636363609,214.28571428571377,14,14
-Semua Pasar (Gabungan),Besi Beton 10 mm,0.0,0.0,14,14
 Semua Pasar (Gabungan),Beras Premium II,0.0,0.0,14,14
-Semua Pasar (Gabungan),Beras Premium Super,2.9578891895111665,469.3877551020404,13,14
-Semua Pasar (Gabungan),Cabe Hijau,5.682199656147395,1556.1224489795918,6,14
-Semua Pasar (Gabungan),Buncis,5.3472628092733325,908.163265306123,10,14
-Semua Pasar (Gabungan),Cabe Merah Biasa,11.628894537265804,4000.0000000000005,0,14
-Semua Pasar (Gabungan),Cabe Merah Keriting,6.430789266069217,4020.408163265306,5,14
-Semua Pasar (Gabungan),Cabe Rawit Hijau,2.0549984751272405,1040.8163265306134,12,14
-Semua Pasar (Gabungan),Cabe Rawit Merah,9.73126956096977,7882.653061224492,3,14
+Semua Pasar (Gabungan),Beras Premium Super,1.5443770587183314,255.10204081632634,14,14
+Semua Pasar (Gabungan),Besi Beton 10 mm,0.0,0.0,14,14
+Semua Pasar (Gabungan),Cabe Hijau,6.774475376823928,1862.2448979591838,5,14
+Semua Pasar (Gabungan),Buncis,6.008304110656538,1020.4081632653064,9,14
+Semua Pasar (Gabungan),Cabe Merah Biasa,7.621535264197781,2637.755102040817,4,14
+Semua Pasar (Gabungan),Cabe Merah Keriting,7.556622775922738,4714.285714285715,2,14
+Semua Pasar (Gabungan),Cabe Rawit Hijau,1.3212081953082433,663.2653061224493,14,14
+Semua Pasar (Gabungan),Cabe Rawit Merah,9.87143291942656,8051.020408163268,4,14
 Semua Pasar (Gabungan),Cakra Kembar,1.17647058823529,166.66666666666606,14,14
-Semua Pasar (Gabungan),Cumi Asin,1.8682065217391322,1964.2857142857163,14,14
-Semua Pasar (Gabungan),Daging Ayam Broiler,1.132181023458004,418.3673469387759,14,14
+Semua Pasar (Gabungan),Cumi Asin,1.6983695652173927,1785.7142857142878,14,14
+Semua Pasar (Gabungan),Daging Ayam Broiler,1.2010903580084757,443.87755102040785,14,14
 Semua Pasar (Gabungan),Daging Ayam Kampung,1.2345679012345678,500.0,14,14
 Semua Pasar (Gabungan),Garam Beryodium Bata,0.0,0.0,14,14
 Semua Pasar (Gabungan),Daging Kambing,0.7692307692307693,1000.0,14,14
-Semua Pasar (Gabungan),Daging Sapi Kw 2,0.9456740442655894,1119.0476190476143,14,14
-Semua Pasar (Gabungan),Daging Sapi Murni,1.600917431192658,2494.8979591836687,14,14
+Semua Pasar (Gabungan),Daging Sapi Kw 2,0.9154929577464747,1083.3333333333285,14,14
+Semua Pasar (Gabungan),Daging Sapi Murni,1.4862385321100888,2316.3265306122403,14,14
 Semua Pasar (Gabungan),Garam Beryodium,4.411764705882359,107.14285714285727,14,14
-Semua Pasar (Gabungan),Gas Elpiji,0.42016806722689076,71.42857142857143,14,14
+Semua Pasar (Gabungan),Gas Elpiji,0.0,0.0,14,14
 Semua Pasar (Gabungan),Gula Batu,0.36496350364964025,71.42857142857247,14,14
 Semua Pasar (Gabungan),Gula Impor,0.431034482758627,71.42857142857247,14,14
 Semua Pasar (Gabungan),Ikan Asin Kembung,1.2396694214876,214.28571428571377,14,14
-Semua Pasar (Gabungan),Gula Merah,3.9419934640522833,765.3061224489787,14,14
+Semua Pasar (Gabungan),Gula Merah,3.5743464052287544,693.8775510204074,14,14
+Semua Pasar (Gabungan),Gula Pasir lokal,1.9977189691152992,377.55102040816433,14,14
 Semua Pasar (Gabungan),Ikan Asin Peda,0.0,0.0,14,14
-Semua Pasar (Gabungan),Gula Pasir lokal,2.076455775380195,392.8571428571439,14,14
 Semua Pasar (Gabungan),Ikan Asin Teri,0.0,0.0,14,14
-Semua Pasar (Gabungan),Ikan Asin Tiga Wajan,3.2499999999999964,928.5714285714275,14,14
-Semua Pasar (Gabungan),Ikan Bandeng,3.368896520810395,1209.1836734693873,14,14
-Semua Pasar (Gabungan),Ikan Kembung,3.4941894333121226,1602.040816326531,8,14
+Semua Pasar (Gabungan),Ikan Asin Tiga Wajan,3.1249999999999964,892.8571428571419,14,14
+Semua Pasar (Gabungan),Ikan Bandeng,3.651757599126019,1311.2244897959176,14,14
 Semua Pasar (Gabungan),Ikan Kembung Layang,0.14705882352941607,166.66666666667152,14,14
+Semua Pasar (Gabungan),Ikan Kembung,3.437967154181533,1576.530612244898,11,14
 Semua Pasar (Gabungan),Indomie Kari Ayam,0.5263157894736785,71.42857142857065,14,14
 Semua Pasar (Gabungan),Ikan Mas,0.9146341463414632,300.0,14,14
-Semua Pasar (Gabungan),Ikan Tongkol,1.2955465587044512,416.66666666666606,14,14
+Semua Pasar (Gabungan),Ikan Tongkol,1.2608444187391532,404.7619047619041,14,14
 Semua Pasar (Gabungan),Jagung Pipilan Kering,4.545454545454541,166.66666666666652,14,14
 Semua Pasar (Gabungan),Jagung Manis,0.0,0.0,14,14
-Semua Pasar (Gabungan),Jagung Pipilan,1.302196374631572,132.65306122448925,14,14
 Semua Pasar (Gabungan),Kangkung,0.0,0.0,14,14
-Semua Pasar (Gabungan),Kacang Hijau,1.3557589381113146,336.73469387755176,14,14
-Semua Pasar (Gabungan),Kacang Kedelai Impor,0.4539337877062624,61.224489795917826,14,14
-Semua Pasar (Gabungan),Kacang Panjang,0.6535947712418227,142.8571428571413,14,14
+Semua Pasar (Gabungan),Jagung Pipilan,1.5443509875361612,158.163265306122,14,14
+Semua Pasar (Gabungan),Kacang Hijau,1.4173352927911185,352.04081632653157,14,14
+Semua Pasar (Gabungan),Kacang Kedelai Impor,0.4543337237165007,61.224489795917826,14,14
 Semua Pasar (Gabungan),Kacang Kedelai Lokal,0.5319148936170153,71.42857142857065,14,14
+Semua Pasar (Gabungan),Kacang Panjang,0.6535947712418227,142.8571428571413,14,14
 Semua Pasar (Gabungan),Kayu Meranti,0.0,0.0,14,14
-Semua Pasar (Gabungan),Kacang Tanah kupas,0.9188544152744641,275.51020408163305,14,14
-Semua Pasar (Gabungan),Kacang Tanah/Suuk,0.993206804412535,352.04081632653157,14,14
+Semua Pasar (Gabungan),Kacang Tanah kupas,1.2933287873622015,387.7551020408168,14,14
+Semua Pasar (Gabungan),Kacang Tanah/Suuk,1.1348295825560513,403.0612244897971,14,14
 Semua Pasar (Gabungan),Ketela Pohon/Singkong,0.0,0.0,14,14
-Semua Pasar (Gabungan),Kentang,2.1071672537380515,336.73469387755125,14,14
-Semua Pasar (Gabungan),Kol,8.093817493575404,806.122448979592,13,14
+Semua Pasar (Gabungan),Kentang,2.2617471870790467,362.2448979591839,14,14
 Semua Pasar (Gabungan),Kunci Biru,1.49253731343283,166.66666666666606,14,14
+Semua Pasar (Gabungan),Kol,8.852510855008491,887.7551020408165,13,14
 Semua Pasar (Gabungan),Minyak Goreng Sania,0.0,0.0,14,14
 Semua Pasar (Gabungan),Margarine Blue Band,1.4492753623188437,142.85714285714312,14,14
+Semua Pasar (Gabungan),Margarine Simas,2.6168746507729566,255.952380952381,14,14
 Semua Pasar (Gabungan),Mie Instan Sedaap Soto,6.749999999999997,1928.5714285714275,0,14
-Semua Pasar (Gabungan),Margarine Simas,2.678959458620477,261.904761904762,14,14
 Semua Pasar (Gabungan),Minyak Goreng Bimoli,1.5625000000000027,285.71428571428623,14,14
-Semua Pasar (Gabungan),Minyak Goreng Curah,0.9260661688482705,193.87755102040865,14,14
+Semua Pasar (Gabungan),Minyak Goreng Curah,1.9004676983196547,397.95918367346945,14,14
 Semua Pasar (Gabungan),Minyak Goreng Filma,0.7518796992481203,125.0,14,14
 Semua Pasar (Gabungan),Minyak Goreng Kemasan Sederhana,0.9491581379993317,158.1632653061211,14,14
-Semua Pasar (Gabungan),Minyak Goreng Tropical,0.759109641300684,168.36734693877457,14,14
-Semua Pasar (Gabungan),Sawi Hijau,3.968285432744019,423.4693877551018,14,14
-Semua Pasar (Gabungan),Sawi Petsay,4.317632850241547,566.326530612245,14,14
+Semua Pasar (Gabungan),Minyak Goreng Tropical,0.7820765480759208,173.46938775510094,14,14
+Semua Pasar (Gabungan),Sawi Hijau,3.3469404035042527,357.1428571428569,14,14
+Semua Pasar (Gabungan),Sawi Petsay,4.317632850241546,566.326530612245,14,14
 Semua Pasar (Gabungan),Segitiga Biru,1.2048192771084356,142.85714285714312,14,14
 Semua Pasar (Gabungan),Singkong,3.9999999999999996,250.0,14,14
 Semua Pasar (Gabungan),Susu Bubuk Dancow Putih,0.9216589861751221,333.33333333333576,14,14
 Semua Pasar (Gabungan),Susu Bubuk Putih Indomilk,5.882352941176471,500.0,14,14
 Semua Pasar (Gabungan),Susu Kental Manis Bendera Cokelat,1.2578616352201282,142.85714285714312,14,14
 Semua Pasar (Gabungan),Susu Kental Manis Bendera Putih,0.0,0.0,14,14
+Semua Pasar (Gabungan),Telur Ayam Broiler,2.350304612133491,571.4285714285719,14,14
 Semua Pasar (Gabungan),Susu Kental Manis Indomilk,2.6548672566371674,300.0,14,14
-Semua Pasar (Gabungan),Telur Ayam Broiler,2.5791361634052787,627.5510204081636,14,14
 Semua Pasar (Gabungan),Telur Ayam Kampung,0.0,0.0,14,14
 Semua Pasar (Gabungan),Susu Kental Manis Indomilk Cokelat,1.7857142857142854,200.0,14,14
 Semua Pasar (Gabungan),Telur Bebek Asin,1.0000000000000069,333.33333333333576,14,14
 Semua Pasar (Gabungan),Telur Bebek Mentah,0.8849557522123894,250.0,14,14
-Semua Pasar (Gabungan),Tepung Terigu Cakra Kembar,2.1276595744680846,250.0,14,14
-Semua Pasar (Gabungan),Tepung Terigu Kunci Biru,2.1286660359508014,229.59183673469357,14,14
 Semua Pasar (Gabungan),Tepung Terigu Segitiga Biru,0.0,0.0,14,14
+Semua Pasar (Gabungan),Tepung Terigu Cakra Kembar,2.1276595744680846,250.0,14,14
+Semua Pasar (Gabungan),Tepung Terigu Kunci Biru,2.1759697256385975,234.6938775510202,14,14
 Semua Pasar (Gabungan),Tepung Terigu Segi Tiga Biru,0.0,0.0,14,14
 Semua Pasar (Gabungan),Teri Medan Basah,0.3333333333333382,214.2857142857174,14,14
-Semua Pasar (Gabungan),Teri Medan Kering,3.854838709677412,3403.0612244897898,12,14
-Semua Pasar (Gabungan),Tomat Buah,5.377039718002184,1117.3469387755101,11,14
-Semua Pasar (Gabungan),Tomat Sayur,4.6068673021560365,704.0816326530615,14,14
-Semua Pasar (Gabungan),Ubi Jalar,6.348863305225308,734.69387755102,11,14
-Semua Pasar (Gabungan),Udang,2.3889056090789613,1607.1428571428592,14,14
-Semua Pasar (Gabungan),Wortel,1.3971108007805215,219.38775510204024,14,14
+Semua Pasar (Gabungan),Teri Medan Kering,1.0301459293394715,908.163265306117,14,14
+Semua Pasar (Gabungan),Tomat Buah,5.035158377126033,1045.9183673469386,12,14
+Semua Pasar (Gabungan),Tomat Sayur,4.203509637801604,642.8571428571432,13,14
+Semua Pasar (Gabungan),Udang,1.8601531947405745,1250.000000000002,14,14
+Semua Pasar (Gabungan),Ubi Jalar,6.0823387849694415,709.1836734693873,11,14
+Semua Pasar (Gabungan),Wortel,3.3472831523290245,520.4081632653063,14,14
